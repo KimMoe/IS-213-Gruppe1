@@ -17,8 +17,8 @@ public class Kortspill {
     public static void main(String[] args) {
         Kortstokk kortstokk;
         kortstokk = new Kortstokk();
-        kortstokk.lagKort();
-        kortstokk.skrivKort(); //Kun for å teste at valører er lagt til i ArrayList
+        kortstokk.lagKortstokk();
+        kortstokk.skrivKort(); //Kun for å teste at valører og kort er lagt til i ArrayList
         
     }
     

@@ -6,7 +6,6 @@
 package kortspill;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -14,12 +13,13 @@ import java.util.HashMap;
  */
 public class Kortstokk {
     
-    HashMap<String, Integer> stokk;
-    ArrayList<String> valorer;
+    private ArrayList<String> valorer;
+    private ArrayList<Kort> kortstokk;
+    private Kort kort;
 
 public Kortstokk(){
-    stokk = new HashMap<>();
     valorer = new ArrayList<>();
+    kortstokk = new ArrayList<>();
 }
 
 //Legger valører inn i ArrayList som skal brukes av lagKort() for å legge kort inn i HashMap
@@ -30,32 +30,31 @@ public void putValorer(){
     valorer.add("Spar");
 }
 
-//Legger valør og verdi inn i HashMap
-public void lagKort(){
+public void lagKortstokk(){
     putValorer();
     int i = 1;
-    int t = 1;
-    int index = 0;
-    String valor = valorer.get(index);
-    
-    while (i<5){
-        while(t<14){
-            stokk.put(valor, t);
-            t++;
+    int v = 0;
+    Kort kort;
+    String k;
+    while (v<=3){
+        k = valorer.get(v);
+        kortstokk.add(new Kort(k, i));
+        i++;
+        if (i==14){
+            i=0;
+            v++;
         }
-        index++;
-        t=1;
-        if (index<4){
-        valor = valorer.get(index);
         }
-        i++;        
     }
-}
 
-//Metde kun for testing
+
+//Metde for å skrive ut begge listene
 public void skrivKort(){
     for (String i:valorer){
         System.out.println(i);
+    }
+    for (Kort k:kortstokk){
+        System.out.println(k.getValor() + " " + k.getVerdi());
     }
 }
 
