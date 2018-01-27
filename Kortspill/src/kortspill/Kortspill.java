@@ -18,7 +18,7 @@ public class Kortspill {
         Kortstokk kortstokk;
         kortstokk = new Kortstokk();
         kortstokk.lagKortstokk();
-        kortstokk.skrivKort(); //Kun for å teste at valører og kort er lagt til i ArrayList
+        kortstokk.skrivKort(); 
         
     }
     
