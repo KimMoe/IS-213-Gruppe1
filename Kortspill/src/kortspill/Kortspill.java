@@ -19,6 +19,8 @@ public class Kortspill {
         kortstokk = new Kortstokk();
         kortstokk.lagKortstokk();
         kortstokk.skrivKort(); 
+        kortstokk.stokkKort();
+        kortstokk.skrivKort();
         
     }
     

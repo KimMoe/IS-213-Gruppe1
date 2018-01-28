@@ -6,6 +6,7 @@
 package kortspill;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -51,6 +52,10 @@ public void skrivKort(){
     for (Kort k:kortstokk){
         System.out.println(k.getValor() + " " + k.getVerdi());
     }
+}
+
+public void stokkKort(){
+    Collections.shuffle(kortstokk);
 }
 
 }
