@@ -18,9 +18,14 @@ public class Kortspill {
         Kortstokk kortstokk;
         kortstokk = new Kortstokk();
         kortstokk.lagKortstokk();
-        kortstokk.skrivKort(); 
         kortstokk.stokkKort();
         kortstokk.skrivKort();
+        System.out.println("------");
+        kortstokk.delKort();
+        kortstokk.skrivHender();
+        System.out.println("------");
+        kortstokk.skrivKort();
+       
         
     }
     
