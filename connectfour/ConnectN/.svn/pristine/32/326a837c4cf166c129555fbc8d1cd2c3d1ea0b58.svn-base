@@ -1,0 +1,67 @@
+package is207.connectn.game;
+
+import is207.connectn.game.strategy.HumanStrategy;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+
+
+
+/**
+ * Representation of a player
+ *
+ * @author evenal
+ */
+public final class Player {
+
+    private String name;
+    private Color colour;
+    private Strategy strategy;
+    ExecutorService exec;
+
+
+    public Player(String name, Color colour, Strategy strategy) {
+        this.name = name;
+        this.colour = colour;
+        this.strategy = strategy;
+        exec = Executors.newSingleThreadExecutor();
+    }
+
+
+    public final int selectMove(int lastMove, ArrayList<Integer> moves)
+            throws InterruptedException, ExecutionException, TimeoutException {
+        strategy.prepare(lastMove, moves);
+        Future<Integer> result = exec.submit(strategy);
+        try {
+            System.out.println("Finding move for" + name);
+            int timeout = strategy.getTimeout();
+            Integer move = -1;
+
+            // hack to allow human players unlimited time to think.
+            if (strategy.getClass() == HumanStrategy.class)
+                move = strategy.call();
+            else
+
+                move = result.get(timeout, strategy.getTimeUnit());
+        }
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return strategy.getSelectedMove();
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+
+    public Color getColour() {
+        return colour;
+    }
+
+}

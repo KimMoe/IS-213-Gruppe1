@@ -1,0 +1,55 @@
+package is207.connectn.game.strategy;
+
+import is207.connectn.game.Strategy;
+import java.util.HashMap;
+import java.util.Set;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class StrategyManager {
+
+    private static StrategyManager instance;
+
+    private HashMap<String, Class<? extends Strategy>> strategies;
+
+
+    public static StrategyManager getInstance() {
+        if (null==instance)
+            instance = new StrategyManager();
+        return instance;
+    }
+
+
+    private StrategyManager() {
+        strategies = new HashMap<>();
+
+        register("Random", RandomStrategy.class);
+        register("Human", HumanStrategy.class);
+    }
+
+
+    public void register(String name, Class<? extends Strategy> strategy) {
+        strategies.put(name, strategy);
+    }
+
+
+    public Class<? extends Strategy> getStrategy(String name) {
+        return strategies.get(name);
+    }
+
+
+    public Strategy getStrategyInstance(String name)
+            throws InstantiationException, IllegalAccessException {
+        return getStrategy(name).newInstance();
+    }
+
+
+    public String[] getNames() {
+        Set<String> keys = strategies.keySet();
+        return keys.toArray(new String[0]);
+    }
+}

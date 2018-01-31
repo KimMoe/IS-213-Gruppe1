@@ -1,0 +1,23 @@
+package connectN.ctN;
+
+import connectN.players.*;
+public class PlayerThread extends Thread
+{
+    private Player player;
+    private ConnectNBoard board;
+    private int oppMoveCol;
+
+    /** Make sure to copy the board in the constructor so that the
+	 * player can't do any damage to the real board.
+	 */
+    public PlayerThread (Player player, ConnectNBoard board, int oppMoveCol) {
+        this.player = player;
+        this.board = new ConnectNBoard(board);
+        this.oppMoveCol = oppMoveCol;
+    }
+
+    public void run() {
+        player.timeDown();
+        player.calcMove(board,oppMoveCol);
+    }
+}

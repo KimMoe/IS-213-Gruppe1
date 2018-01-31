@@ -1,0 +1,55 @@
+package is207.connectn.handin.others;
+
+import is207.connectn.strategy.Strategy;
+import java.util.Random;
+
+
+
+public class BestStrategyEU extends Strategy
+{
+
+    private static Random rand = new Random();
+    int lastColumn = 1;
+    int inARow = 0;
+    int laststartingcolumn = 1;
+    boolean horizontal = true;
+    boolean vertical = false;
+    int lastVerticalColumn = 1;
+
+    @Override
+    public Integer call() {
+        int n = validMoves.size();
+        System.out.print(n + " available moves:");
+        for (int m : validMoves)
+            System.out.print(" " + m);
+        System.out.println();
+        lastColumn++;
+        inARow++;
+        if (lastColumn > 6) {
+            lastColumn = 1;
+        }
+        if (inARow > 3) {
+            inARow = 0;
+            if (horizontal) {
+                horizontal = false;
+                vertical = true;
+            }
+            else if (vertical) {
+                vertical = false;
+                horizontal = true;
+            }
+            lastVerticalColumn++;
+        }
+
+        if (vertical) {
+            lastColumn = lastVerticalColumn;
+        }
+
+        if (lastColumn > n) {
+            Random r = new Random();
+            lastColumn = r.nextInt(n);
+        }
+        selectedMove = validMoves.get(lastColumn);
+        return selectedMove;
+    }
+}

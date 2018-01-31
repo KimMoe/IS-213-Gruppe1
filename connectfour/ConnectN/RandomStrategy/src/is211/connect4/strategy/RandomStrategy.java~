@@ -1,0 +1,26 @@
+package is211.connect4.strategy;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import java.util.Random;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class RandomStrategy extends AbstractStrategy
+{
+
+    private Random random = new Random();
+
+    public Integer call() {
+        int i = random.nextInt(validMoves.size());
+        return validMoves.get(i);
+    }
+}

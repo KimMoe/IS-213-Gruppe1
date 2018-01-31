@@ -1,0 +1,142 @@
+package is207.connectn.game;
+
+import java.awt.Color;
+import java.util.ArrayList;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class GameState
+{
+
+    private int cols;
+    private int rows;
+    private Player[][] board;
+    private int height[];
+    ArrayList<Move> moves;
+
+    public GameState(GameParams params) {
+        cols = params.getCols();
+        rows = params.getRows();
+        board = new Player[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                board[r][c] = null;
+            }
+        }
+        height = new int[cols];
+        for (int c = 0; c < cols; c++)
+            height[c] = 0;
+        moves = new ArrayList<>();
+    }
+
+    public void printState() {
+        System.out.print("+");
+        for (int col = 0; col < cols; col++)
+            System.out.print("-");
+        System.out.println("+");
+        for (int row = rows - 1; row >= 0; row--) {
+            System.out.print("|");
+            for (int col = 0; col < cols; col++) {
+                Player p = get(row, col);
+                if (null == p)
+                    System.out.print(".");
+                else if (p.getColour() == Color.RED)
+                    System.out.print("O");
+                else if (p.getColour() == Color.BLUE)
+                    System.out.print("X");
+                else
+                    System.out.print("?");
+            }
+            System.out.println("|");
+        }
+        System.out.print("+");
+        for (int col = 0; col < cols; col++)
+            System.out.print("-");
+        System.out.println("+");
+        System.out.flush();
+    }
+
+    /**
+     * Add a disk to the board.
+     *
+     * @param col        The index of the column to insert the new
+     *                   disk in
+     * @param diskColour colour of the inserted disk.
+     * @param connLen    number of disks that must be in line to win
+     *
+     * @return true if this move resultet in a win, otherwise false
+     *
+     * @throws IllegalMoveException
+     */
+    public void add(int col, Player p)
+            throws IllegalMoveException {
+        if (col < 0 || col >= cols) {
+            throw new IllegalMoveException("Column " + col + " does not exist!");
+        }
+        else if (height[col] == rows)
+            throw new IllegalMoveException("Column " + col + " is full!");
+
+        int row = height[col];
+        board[row][col] = p;
+        height[col]++;
+        moves.add(new Move(row, col, p));
+    }
+
+    public Move getLastMove() {
+        if (moves.isEmpty()) return null;
+        else return moves.get(moves.size() - 1);
+    }
+
+    public ArrayList<Integer> getValidMoves() {
+        ArrayList<Integer> validMoves = new ArrayList<>();
+        for (int c = 0; c < cols; c++) {
+            if (height[c] < rows)
+                validMoves.add(c);
+        }
+        return validMoves;
+    }
+
+    /**
+     * Get the state of play
+     *
+     * @param col column to check
+     * @param row row to check
+     *
+     * @return the colour of the disk in (col, row), or null if the
+     *         cell is empty
+     */
+    public Player get(int row, int col) {
+        assert row >= 0 && row < rows;
+        assert col >= 0 && col < cols;
+        return board[row][col];
+    }
+
+    /**
+     *
+     * @param col column to check
+     *
+     * @return the height of the stack of disks in column col
+     */
+    public int getHeight(int col) {
+        return height[col];
+    }
+
+
+
+    public static class Move
+    {
+        public final int row;
+        public final int col;
+        public final Player p;
+
+        public Move(int row, int col, Player p) {
+            this.row = row;
+            this.col = col;
+            this.p = p;
+        }
+    }
+}

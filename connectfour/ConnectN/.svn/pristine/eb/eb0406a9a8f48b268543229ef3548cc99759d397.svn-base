@@ -1,0 +1,35 @@
+package is207.connectn;
+
+import is207.connectn.gui.ConnectNPanel;
+import is207.connectn.gui.MainWindow;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+
+
+public class ConnectN
+{
+    public static PrintWriter log;
+    public static boolean tee = true;
+
+    static {
+        try {
+            log = new PrintWriter("connectn.log");
+        }
+        catch (IOException e) {
+            log = null;
+        }
+    }
+
+    public static void log(String m) {
+        log.println(m);
+        log.flush();
+        if (tee) System.err.println(m);
+    }
+
+    public static final void main(String[] args) {
+        MainWindow window = new MainWindow("JConnectN",
+                new ConnectNPanel());
+        window.start();
+    }
+}

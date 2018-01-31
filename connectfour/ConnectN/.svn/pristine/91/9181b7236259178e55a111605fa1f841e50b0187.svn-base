@@ -1,0 +1,140 @@
+package is207.connectn.handin.others;
+
+import is207.connectn.strategy.Strategy;
+import java.util.ArrayList;
+
+
+
+/**
+ *
+ * @author Kristian
+ */
+public class LoserButWho extends Strategy
+{
+
+    private boolean prepNotRun = true;
+    private ArrayList<ArrayList> state = new ArrayList<>();
+
+    @Override
+    public Integer call() {
+
+        if (prepNotRun == true) {
+
+            this.prep();
+            prepNotRun = false;
+        }
+
+        int[][] prepPos = new int[][] {
+            {3, 4, 5, 7, 5, 4, 3},
+            {4, 6, 8, 10, 8, 6, 4},
+            {5, 8, 11, 13, 11, 8, 5},
+            {5, 8, 11, 13, 11, 8, 5},
+            {4, 6, 8, 10, 8, 6, 4},
+            {3, 4, 5, 7, 5, 4, 3}
+        };
+        if (lastMove > -1) {
+            state.get(lastMove).add(1);
+        }
+
+        int currentPos = 0;
+        int availableRowForColumn;
+        int usedRow = 0;
+        int usedColumn = 0;
+        int field;
+        int lastField;
+        int count = 0;
+
+        for (Integer move : validMoves) {
+
+            ArrayList abc = state.get(move);
+            availableRowForColumn = state.get(move).size();
+
+            if (availableRowForColumn > 2) {
+
+                lastField = 5;
+                count = 0;
+                for (int i = 0; i < state.get(move).size(); i++) {
+
+                    field = (int) state.get(move).get(i);
+
+                    if (lastField == 5 || lastField == field) {
+                        count++;
+                        lastField = field;
+                    }
+                    else {
+                        count = 0;
+                    }
+
+                }
+
+            }
+
+            if (count == 3) {
+
+                selectedMove = move;
+                state.get(move).add(0);
+
+                return selectedMove;
+
+            }
+
+            int posForRow = prepPos[availableRowForColumn][move];
+            if (posForRow > currentPos) {
+                selectedMove = move;
+                currentPos = posForRow;
+                usedRow = availableRowForColumn;
+                usedColumn = move;
+
+            }
+
+        }
+        /*
+         * System.out.println("usedRow: " + usedRow);
+         * System.out.println("usedColumn: " + usedColumn);
+         * System.out.println("currentPos: " + currentPos);
+         *
+         */
+        state.get(usedColumn).add(0);
+        return selectedMove;
+    }
+
+    public ArrayList prep() {
+        /*
+         * System.out.println("Running prep");
+         */
+
+        int nRows = rows;
+        int nCols = cols;
+
+        /*
+         * int[][] prepPos = new int[][]{
+         * { 3, 4, 5, 7, 5, 4, 3},
+         * { 4, 6, 8, 10, 8, 6, 4},
+         * { 5, 8, 11, 13, 11, 8, 5},
+         * { 5, 8, 11, 13, 11, 8, 5},
+         * { 4, 6, 8, 10, 8, 6, 4},
+         * { 3, 4, 5, 7, 5, 4, 3}
+         * };
+         *
+         */
+        while (nCols > 0) {
+
+            state.add(new ArrayList<>());
+
+            /*
+             * while(nRows > 0){
+             *
+             *
+             * //state.get(nCols).add(new
+             * PosEntity(prepPos[nRows][nCols])); *
+             * nRows--;
+             * }
+             */
+            nCols--;
+        }
+
+        //System.out.print(state.size() + " columns added:");
+        return state;
+    }
+
+}

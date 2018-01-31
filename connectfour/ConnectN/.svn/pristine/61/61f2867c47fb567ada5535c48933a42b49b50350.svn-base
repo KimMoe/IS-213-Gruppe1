@@ -1,0 +1,48 @@
+
+// A Connect-N player that makes random valid moves.
+
+
+package connectN.players;
+
+import connectN.ctN.*;
+
+public class RandomPlayer extends Player
+{
+	private int msecPerMove;
+	private boolean initialized;
+
+    public RandomPlayer() 
+	{
+		initialized = false;
+    }
+
+    public String name() {
+        return "Village Idiot";
+    }
+
+    public void init (int id, int msecPerMove, int rows, int cols) {
+		initialized = true;
+		this.msecPerMove = msecPerMove;
+    }
+
+    public void calcMove (ConnectNBoard board, int oppMoveCol) {
+		// Make sure we were initialized properly
+		if (!initialized) 
+		{
+			throw new Error ("Complaint: I wasn't initialized!"); 
+		}
+
+        // Make sure there is room to make a move.
+        if (board.isFull()) 
+		{
+            throw new Error ("Complaint: The board is full!");
+        }
+        // Make a random valid move.
+        java.util.Random rand = new java.util.Random();
+        int col = 0;
+        do {
+            col = rand.nextInt(board.numCols());
+        } while (!board.isValidMove(col));
+        setMove(col);
+    }
+}

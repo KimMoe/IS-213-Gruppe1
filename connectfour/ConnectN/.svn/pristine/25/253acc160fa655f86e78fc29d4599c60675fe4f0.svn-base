@@ -1,0 +1,31 @@
+package is207.connectn.handin.glenn;
+
+
+
+public class GGBalancedDefensiveStrategy extends GGAbstractStrategy
+{
+
+    final int MEINROW1 = 2;
+    final int MEINROW2 = 4;
+    final int MEINROW3 = 1000;
+    final int MEINROW3MIDDLE = 16000;
+    final int OPPINROW1 = 1;
+    final int OPPINROW2 = 8;
+    final int OPPINROW3 = 8;
+    final int OPPINROW3MIDDLE = 15;
+    final boolean ALWAYSOVERWRITESELECTEDMOVE = false;
+
+    protected int runLogic() {
+        BestMove myBestMove = getBestMove(me);
+        BestMove oppBestMove = getBestMove(getOpponent());
+
+        if (myBestMove.getBestScore() < oppBestMove.getBestScore()) {
+            selectedMove = oppBestMove.getBestCol();
+        }
+        else {
+            selectedMove = myBestMove.getBestCol();
+        }
+        return selectedMove;
+    }
+
+}

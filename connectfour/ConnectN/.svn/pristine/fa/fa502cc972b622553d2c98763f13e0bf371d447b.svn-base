@@ -1,0 +1,107 @@
+package is207.connectn.gui;
+
+import is207.connectn.game.Game;
+import is207.connectn.game.GameParams;
+import is207.connectn.game.Player;
+import is207.connectn.game.Strategy;
+import is207.connectn.game.strategy.HumanStrategy;
+import is207.connectn.game.strategy.StrategyManager;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class ConnectNPanel extends JPanel {
+
+    JTextField status;
+
+    JTextField colField, rowField, timeoutField, connLenField;
+    GameParams gameParams = new GameParams();
+    Game game;
+    Board board;
+
+
+    public ConnectNPanel() {
+        setLayout(new BorderLayout());
+
+        Box menu = Box.createVerticalBox();
+        menu.add(new JButton(new PlayGameAction()));
+
+        add(menu, BorderLayout.WEST);
+
+        status = new JTextField();
+        add(status, BorderLayout.SOUTH);
+
+        board = new Board(gameParams);
+        add(board);
+    }
+
+
+    private void playGame() {
+
+        try {
+            Player player1 = setupPlayer("first player", Color.RED);
+            Player player2 = setupPlayer("second player", Color.BLUE);
+            game = new Game(gameParams, player1, player2);
+            game.addGameStateListener(board);
+            game.run();
+
+            Player winner = game.getWinner();
+            if (winner == null)
+                status.setText("Draw");
+            else
+                status.setText("" + winner + " won!");
+        }
+        catch (InstantiationException ie) {
+            JOptionPane.showMessageDialog(null, "Unable to create player!");
+        }
+        catch (IllegalAccessException iae) {
+            JOptionPane.showMessageDialog(null, "Unable to create player!");
+        }
+    }
+
+
+    private Player setupPlayer(String description, Color colour)
+            throws InstantiationException, IllegalAccessException {
+        StrategyManager stratMgr = StrategyManager.getInstance();
+        String[] strategies = stratMgr.getNames();
+        String selected = (String) JOptionPane.showInputDialog(
+                null, "Select strategy of " + description,
+                "Select players", JOptionPane.QUESTION_MESSAGE,
+                null, strategies, strategies[0]);
+        Strategy strat = stratMgr.getStrategyInstance(selected);
+        strat.setup(gameParams);
+        Player p = new Player(selected, colour, strat);
+        if (strat.getClass() == HumanStrategy.class) {
+            String humanName = JOptionPane.showInputDialog("Name of Human player:");
+            p.setHumanName(humanName);
+        }
+        return p;
+    }
+
+
+
+    private class PlayGameAction extends AbstractAction {
+
+        public PlayGameAction() {
+            super("Play single game...");
+        }
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playGame();
+        }
+    }
+}

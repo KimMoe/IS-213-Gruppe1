@@ -25,8 +25,6 @@ public class Kortspill {
         kortstokk.skrivHender();
         System.out.println("------");
         kortstokk.skrivKort();
-       
-        
     }
     
 }

@@ -1,0 +1,37 @@
+package is207.connectn.game;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class GameException extends Exception {
+
+    private Player player;
+
+
+    public GameException() {
+    }
+
+
+    public GameException(String msg) {
+        super(msg);
+    }
+
+
+    public GameException(String msg, Exception cause) {
+        super(msg, cause);
+    }
+
+
+    public GameException(String msg, Exception cause, Player player) {
+        super(msg, cause);
+        this.player = player;
+    }
+
+
+    public Player getPlayer() {
+        return player;
+    }
+}

@@ -1,0 +1,148 @@
+package is207.connectn.game;
+
+import is207.connectn.ConnectN;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.Timer;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class GameManager implements ActionListener
+{
+    ArrayList<GameListener> moveListeners;
+    ArrayList<GameListener> newGameListeners;
+    ArrayList<GameListener> gameOverListeners;
+    Timer timer;
+    int delay;
+    Tournament theTournament;
+    Game theGame;
+    GameParams params;
+
+    public GameManager(GameParams params) {
+        this.params = params;
+        moveListeners = new ArrayList<>();
+        newGameListeners = new ArrayList<>();
+        gameOverListeners = new ArrayList<>();
+        delay = params.getTimeLimit();
+        timer = new Timer(delay, this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ConnectN.log("actionPerformed");
+        if (null == theTournament) {
+            // single game
+            if (null != theGame) {
+                if (theGame.gameOver) endGame();
+                else makeMove();
+            }
+        }
+        else {
+            // tournament running
+            if (null == theGame) {
+                ConnectN.log("shouldn't happen");
+            }
+            else if (theGame.gameOver) {
+                endGame();
+                if (theTournament.hasMoreGames()) startNextGame();
+                else endTournament();
+            }
+            else makeMove();
+        }
+    }
+
+    public void startSingleGame(Game game) {
+        ConnectN.log("starting single game...");
+        theGame = game;
+        theTournament = null;
+        fireNewGame(game);
+        timer.start();
+    }
+
+    public void startTournament() {
+        ConnectN.log("starting tournament");
+        theTournament = new Tournament(params);
+        theGame = theTournament.start();
+        fireNewGame(theGame);
+        timer.start();
+    }
+
+    private void startNextGame() {
+        ConnectN.log("starting next game!");
+        theGame = theTournament.nextGame();
+        fireNewGame(theGame);
+        timer.start();
+    }
+
+    private void makeMove() {
+        timer.stop();
+        try {
+            theGame.makeMove();
+            fireMoved(theGame);
+        }
+        catch (GameException ge) {
+            ge.printStackTrace();
+        }
+        timer.start();
+    }
+
+    private void endGame() {
+        timer.stop();
+        theGame.players[0].reset();
+        theGame.players[1].reset();
+        fireGameOver();
+        theGame = null;
+    }
+
+    public void endTournament() {
+
+    }
+
+    // Listeners
+    public void addNewGameListener(GameListener l) {
+        newGameListeners.add(l);
+    }
+
+    public void fireNewGame(Game game) {
+        for (GameListener l : newGameListeners)
+            l.gameChanged(game, GameChange.NEW_GAME);
+    }
+
+    public void addMoveListener(GameListener l) {
+        moveListeners.add(l);
+    }
+
+    public void fireMoved(Game game) {
+        for (GameListener l : moveListeners)
+            l.gameChanged(game, GameChange.MOVE);
+    }
+
+    public void addGameOverListener(GameListener l) {
+        gameOverListeners.add(l);
+    }
+
+    public void fireGameOver() {
+        ConnectN.log("fireGameOver");
+        for (GameListener l : gameOverListeners)
+            l.gameChanged(theGame, GameChange.GAME_OVER);
+    }
+
+
+
+    public static enum GameChange
+    {
+        NEW_GAME, MOVE, GAME_OVER;
+    }
+
+
+
+    public interface GameListener
+    {
+        public void gameChanged(Game game, GameChange reason);
+    }
+}

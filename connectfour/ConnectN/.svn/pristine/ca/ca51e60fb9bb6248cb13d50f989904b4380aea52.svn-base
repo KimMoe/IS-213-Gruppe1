@@ -1,0 +1,100 @@
+package connectN.ctN;
+
+import connectN.players.*;
+public abstract class Player
+{
+    //////////////////////////////////////////////////////////////////
+    // ABSTRACT METHODS TO BE IMPLEMENTED BY SUBCLASSES
+    //////////////////////////////////////////////////////////////////
+
+    /**
+	 *  Return the name of this player.
+	 */
+    abstract public String name();
+
+    /** Initialize the player.  The game calls this method once,
+     * before any calls to calcMove(). 
+	 * @param id -integer identifier for the player
+	 * @param msecPerMove -time allowed for each move
+	 * @param rows -the size of the board
+	 * @param cols -the size of the board
+	 */
+	abstract public void init (int id, int msecPerMove, int rows, int cols);
+    
+
+    /**Called by driver program to calculate the next move.
+	 * @param board current board position
+	 * @param oppMoveCol column of opponent's most recent move; -1 if this 
+	 *         is the first move of the game; note that the board
+	 *         may not be empty on the first move of the game!
+	 */
+	    
+    abstract public void calcMove (ConnectNBoard board, int oppMoveCol);
+
+    //////////////////////////////////////////////////////////////////
+    // UTILITY METHODS FOR SUBCLASSES
+    //////////////////////////////////////////////////////////////////
+
+    /**
+	 * Set the column of the next move.  Must be called from
+	 * <code> calcMove()</code>  so that the game can access the move.  This
+	 * may be called many times safely.
+	 * @param col column of the move
+	 */ 
+    public final synchronized void setMove (int col) { 
+        moveCol = col; 
+        checkTime();
+    }
+
+    /**
+	 * Must be called by frequently in calcMove() to protect against
+	 * run-away calculations.
+	 */ 
+    public final synchronized void checkTime() {
+        if (timeUp) {
+            throw new Error("Thread stopped because time is up.");
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // UTILITY METHODS FOR THE GAME SYSTEM
+    // ** Players may not call these methods under any circumstances
+    //////////////////////////////////////////////////////////////////
+
+    /**
+	 *  Get the column of the next move.  The game calls this
+	 *  method to access the player's next move.
+     */ 
+    public final synchronized int getMove() { 
+        return moveCol; 
+    }
+
+    /**
+	 *  Called by the game when the player has run out of time
+	 *  to calculate its next move.  Players should not call this
+	 *  method.  The side-effect of this method being called is
+	 * that checkTime() will throw an Error when called.
+	 */
+    public final synchronized void timeUp() {
+        timeUp = true;
+    }
+
+    /**
+	 *  Called by the game. Players may not call this method.
+	 */
+    public final synchronized void timeDown() {
+        timeUp = false;
+    }
+
+    //////////////////////////////////////////////////////////////////
+    //  Private fileds
+    //////////////////////////////////////////////////////////////////
+
+	/** The colunm of next move to take by the player
+	 */
+    private int moveCol = -1;
+
+	/** An indicator to indicate whether the player has run out his/her time for taking one move
+	 */
+    private boolean timeUp = false;
+}

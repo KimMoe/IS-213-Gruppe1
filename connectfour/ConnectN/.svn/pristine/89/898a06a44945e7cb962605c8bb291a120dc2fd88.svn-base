@@ -1,0 +1,178 @@
+package is207.connectn.game.strategy.minimax;
+
+
+
+/**
+ * This is a very simple game state evaluator. It just counts the
+ * number of disks in line. The more the better.
+ *
+ * @author evenal
+ */
+public class SimpleEvaluator {
+
+    private static final int FREE = 0;
+    private static final int ME = 1;
+    private static final int OPPONENT = 2;
+
+    int[][] state;
+    int nRows;
+    int nCols;
+    int nConn;
+
+
+    public SimpleEvaluator(int rows, int cols, int nConn) {
+        nRows = rows;
+        nCols = cols;
+        this.nConn = nConn;
+
+        state = new int[rows][cols];
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                state[r][c] = 0;
+    }
+
+
+    int eval() {
+        int points = 0;
+
+        for (int r = 0; r < nRows; r++)
+            for (int c = 0; c < nCols - nConn; c++) {
+                points += checkHor(r, c);
+            }
+
+        for (int r = 0; r < nRows - nCols; r++)
+            for (int c = 0; c < nCols; c++) {
+                points += checkVert(r, c);
+            }
+
+        for (int r = 0; r < nRows - nCols; r++)
+            for (int c = 0; c < nCols - nConn; c++) {
+                points += checkDiag1(r, c);
+            }
+
+        for (int r = nRows - 1; r >= nConn - 1; r--)
+            for (int c = 0; c < nCols - nConn; c++) {
+                points += checkDiag2(r, c);
+            }
+        return points;
+    }
+
+
+    int checkVert(int row, int col) {
+        int nHis = 0;
+        int nMine = 0;
+        int nFree = 0;
+
+        for (int i = 0; i < nConn; i++) {
+            switch (state[row + i][col]) {
+            case FREE:
+                nFree++;
+                break;
+            case ME:
+                nMine++;
+                break;
+            case OPPONENT:
+                nHis++;
+                break;
+            }
+        }
+
+        if (nMine == nConn)
+            return 100;
+        else if (nMine == nConn - 1 && nFree == 1)
+            return 10;
+        else if (nConn > 3 && nMine == nConn - 2 && nFree == 2)
+            return 1;
+        else
+            return 0;
+    }
+
+
+    int checkHor(int row, int col) {
+        int nHis = 0;
+        int nMine = 0;
+        int nFree = 0;
+
+        for (int i = 0; i < nConn; i++) {
+            switch (state[row][col + i]) {
+            case FREE:
+                nFree++;
+                break;
+            case ME:
+                nMine++;
+                break;
+            case OPPONENT:
+                nHis++;
+                break;
+            }
+        }
+
+        if (nMine == nConn)
+            return 100;
+        else if (nMine == nConn - 1 && nFree == 1)
+            return 10;
+        else if (nConn > 3 && nMine == nConn - 2 && nFree == 2)
+            return 1;
+        else
+            return 0;
+    }
+
+
+    int checkDiag1(int row, int col) {
+        int nHis = 0;
+        int nMine = 0;
+        int nFree = 0;
+
+        nHis = nMine = nFree = 0;
+        for (int i = 0; i < nConn; i++) {
+            switch (state[row + i][col + i]) {
+            case FREE:
+                nFree++;
+                break;
+            case ME:
+                nMine++;
+                break;
+            case OPPONENT:
+                nHis++;
+                break;
+            }
+        }
+        if (nMine == nConn)
+            return 100;
+        else if (nMine == nConn - 1 && nFree == 1)
+            return 10;
+        else if (nConn > 3 && nMine == nConn - 2 && nFree == 2)
+            return 1;
+        else
+            return 0;
+    }
+
+
+    int checkDiag2(int row, int col) {
+        int nHis = 0;
+        int nMine = 0;
+        int nFree = 0;
+
+        for (int i = 0; i < nConn; i++) {
+            switch (state[row - i][col + i]) {
+            case FREE:
+                nFree++;
+                break;
+            case ME:
+                nMine++;
+                break;
+            case OPPONENT:
+                nHis++;
+                break;
+            }
+        }
+        if (nMine == nConn)
+            return 100;
+        else if (nMine == nConn - 1 && nFree == 1)
+            return 10;
+        else if (nConn > 3 && nMine == nConn - 2 && nFree == 2)
+            return 1;
+        else
+            return 0;
+    }
+}

@@ -1,0 +1,15 @@
+package is207.connectn;
+
+import is207.connectn.gui.ConnectNPanel;
+import is207.connectn.gui.MainWindow;
+
+
+
+public class ConnectN {
+
+    public static final void main(String[] args) {
+        MainWindow window = new MainWindow("JConnectN",
+                new ConnectNPanel());
+        window.start();
+    }
+}

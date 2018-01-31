@@ -1,0 +1,14 @@
+package is207.connectn.game;
+
+import java.awt.Color;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public interface GameStateListener {
+
+    public void newMove(int row, int col, Color colour);
+}

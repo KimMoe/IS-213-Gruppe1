@@ -1,0 +1,12 @@
+RandomB - RandomD:  0 - 2
+RandomC - RandomD:  2 - 0
+RandomD - RandomA:  2 - 0
+RandomA - RandomC:  0 - 2
+RandomA - RandomD:  2 - 0
+RandomB - RandomA:  0 - 2
+RandomC - RandomB:  2 - 0
+RandomA - RandomB:  2 - 0
+RandomD - RandomB:  2 - 0
+RandomB - RandomC:  0 - 2
+RandomC - RandomA:  2 - 0
+RandomD - RandomC:  2 - 0
