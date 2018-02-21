@@ -1,0 +1,226 @@
+package is207.connectn.game;
+
+import is207.connectn.game.strategy.StrategyManager;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+
+/**
+ *
+ * @author evenal
+ */
+public class Tournament implements TableModel
+{
+
+    String[] names;
+    int[] sum;
+    /**
+     * points table. The number of columns are twice the number of players
+     * because each pair will play twice, so both get the first move
+     */
+    int[][] points;
+    int n;
+    int numMatches;
+    int matchCount;
+    // indices of first and second player
+    int i1, i2;
+
+    List<Listener> listeners;
+    List<TableModelListener> tableModelListeners;
+    GameParams gameParams;
+
+    public Tournament(GameParams gameParams) {
+        this.gameParams = gameParams;
+        tableModelListeners = new ArrayList<>();
+        StrategyManager mgr = StrategyManager.getInstance();
+        names = mgr.getNames();
+        n = names.length;
+        numMatches = n * n - n;
+        matchCount = 0;
+        sum = new int[n];
+        for (int i = 0; i < n; i++) {
+            sum[i] = 0;
+        }
+
+        points = new int[n][n * 2];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 2 * n; j++) {
+                points[i][j] = 0;
+            }
+        }
+        i1 = i2 = -1;
+    }
+
+    public Match start() {
+        return nextMatch();
+    }
+
+    public boolean hasMoreMatches() {
+        return matchCount < numMatches;
+    }
+
+    public Match nextMatch() {
+        i2 = (i2 + 1) % n;
+        if (0 == i2) {
+            i1 = (i1 + 1) % n;
+        }
+        if (i1 == i2) {
+            return nextMatch();
+        }
+        return new Match(matchCount++, i1, i2, names[i1], names[i2]);
+    }
+
+    public void setResult(Match m, Game g) {
+        int p1 = 0, p2 = 0;
+
+        assert m.i1 == i1 && m.i2 == i2;
+        Player p = g.getWinner();
+        if (p != null) {
+            if (p.getName().equals(names[m.i1])) {
+                p1 = 1;
+                p2 = -1;
+            }
+            else {
+                p1 = -1;
+                p2 = 1;
+            }
+            // there are 2 points columns per player
+            // the first is for the move first game
+            points[m.i1][2 * m.i2] = p1;
+            //the second is for the move second game
+            points[m.i2][2 * m.i1 + 1] = p2;
+
+            sum[i1] += p1;
+            sum[i2] += p2;
+            fireTableModelChanged();
+        }
+
+//        System.out.println("Points after game " + matchCount + "/" + numMatches);
+//        for (int i = 0; i < n; i++) {
+//            System.out.format("%12s %4d", names[i], sum[i]);
+//            for (int j = 0; j < n; j++) {
+//                System.out.format(" %2d/%2d", points[i][2 * j], points[i][2 * j
+//                        + 1]);
+//            }
+//            System.out.println();
+//        }
+    }
+
+    /////////////////////////////////////////
+    // implements tablemodel
+    @Override
+    public int getRowCount() {
+        return n;
+    }
+
+    @Override
+    public int getColumnCount() {
+        return 2 * n + 2;
+    }
+
+    @Override
+    public String getColumnName(int columnIndex
+    ) {
+        if (columnIndex == 0) {
+            return "Player";
+        }
+        else if (columnIndex == 1) {
+            return "Sum";
+        }
+        else {
+            int pi = (columnIndex - 2) / 2;
+            int mi = (columnIndex - 2) % 2;
+            String name = names[pi];
+            return name.substring(0, 2) + mi;
+        }
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex
+    ) {
+        if (columnIndex < 2) {
+            return String.class;
+        }
+        else {
+            return Integer.class;
+        }
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex
+    ) {
+        return false;
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex
+    ) {
+        if (columnIndex == 0) {
+            return names[rowIndex];
+        }
+        else if (columnIndex == 1) {
+            return sum[rowIndex];
+        }
+        else {
+            return points[rowIndex][columnIndex - 2];
+        }
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex
+    ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addTableModelListener(TableModelListener l) {
+        tableModelListeners.add(l);
+    }
+
+    @Override
+    public void removeTableModelListener(TableModelListener l) {
+        tableModelListeners.remove(l);
+    }
+
+    public void fireTableModelChanged() {
+        TableModelEvent e = new TableModelEvent(this);
+        for (TableModelListener tml : tableModelListeners) {
+            tml.tableChanged(e);
+        }
+    }
+
+    public static class Match
+    {
+
+        int i1, i2;
+        String n1, n2;
+        final int matchNo;
+
+        public Match(int matchNo, int i1, int i2, String n1, String n2) {
+            this.matchNo = matchNo;
+            this.i1 = i1;
+            this.i2 = i2;
+            this.n1 = n1;
+            this.n2 = n2;
+        }
+    }
+
+    public void addTournamentListener(Listener l) {
+        listeners.add(l);
+    }
+
+    public void fireTournamentEnded() {
+        for (Listener l : listeners) {
+            l.tournamentEnded();
+
+        }
+    }
+
+    public interface Listener
+    {
+
+        public void tournamentEnded();
+    }
+}

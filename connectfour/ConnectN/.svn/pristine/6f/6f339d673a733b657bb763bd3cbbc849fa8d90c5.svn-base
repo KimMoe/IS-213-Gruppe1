@@ -1,0 +1,29 @@
+package is207.connectn.game.strategy;
+
+import is207.connectn.game.Strategy;
+import java.util.Random;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class RandomStrategy extends Strategy {
+
+    private static Random rand = new Random();
+
+
+    @Override
+    public Integer call() {
+        int n = validMoves.size();
+        System.out.print(n + " available moves:");
+        for (int m : validMoves)
+            System.out.print(" " + m);
+        System.out.println();
+        int i = rand.nextInt(n);
+        selectedMove = validMoves.get(i);
+        System.out.println("Returning move " + i + ": " + selectedMove);
+        return selectedMove;
+    }
+}

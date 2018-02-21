@@ -1,0 +1,14 @@
+package is207.connectn.game.strategy.minimax;
+
+
+
+public class StackNode
+{
+    int row, col, player;
+
+    public StackNode(int player, int row, int col) {
+        this.player = player;
+        this.row = row;
+        this.col = col;
+    }
+}

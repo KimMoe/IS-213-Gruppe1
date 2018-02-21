@@ -1,0 +1,113 @@
+package is207.connectn.game;
+
+import is207.connectn.game.strategy.Strategy;
+import is207.connectn.game.strategy.StrategyManager;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class Tournament
+{
+    List<Player> players;
+    List<Color> colours;
+    List<Listener> listeners;
+    Player p1;
+    Player p2;
+    Iterator<Player> it1;
+    Iterator<Player> it2;
+    GameParams gameParams;
+
+    public Tournament(GameParams gameParams) {
+        this.gameParams = gameParams;
+        colours = new ArrayList<Color>();
+        colours.add(Color.BLACK);
+        colours.add(Color.GRAY);
+        colours.add(Color.WHITE);
+        colours.add(Color.RED);
+        colours.add(Color.BLUE);
+        colours.add(Color.GREEN);
+        colours.add(Color.YELLOW);
+        colours.add(Color.MAGENTA);
+        colours.add(new Color(255, 128, 128));
+        colours.add(new Color(128, 255, 128));
+        colours.add(new Color(128, 128, 255));
+        colours.add(new Color(0, 128, 128));
+        colours.add(new Color(128, 0, 128));
+        colours.add(new Color(128, 128, 0));
+
+        StrategyManager mgr = StrategyManager.getInstance();
+        int colorNo = 0;
+        players = new ArrayList<>();
+        for (String name : mgr.getNames()) {
+            try {
+                Strategy strat = mgr.getStrategyInstance(name);
+
+                Player p = new Player(name, colours.get(colorNo), strat);
+                strat.setup(gameParams);
+                players.add(p);
+                colorNo++;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Game start() {
+        it1 = players.iterator();
+        it2 = players.iterator();
+        if (it1.hasNext()) p1 = it1.next();
+        if (it2.hasNext()) p2 = it2.next();
+
+        p1.setColour(Color.RED);
+        p2.setColour(Color.blue);
+        Game game = new Game(gameParams, p1, p2);
+        return game;
+    }
+
+    public boolean hasMoreGames() {
+        if (it2.hasNext()) return true;
+        else if (it1.hasNext()) return true;
+        else return false;
+    }
+
+    public Game nextGame() {
+        while (it2.hasNext()) {
+            p2 = it2.next();
+            if (p2 != p1) return new Game(gameParams, p1, p2);
+        }
+        if (it1.hasNext()) {
+            p1 = it1.next();
+            it2 = players.iterator();
+            while (it2.hasNext()) {
+                p2 = it2.next();
+                if (p2 != p1) return new Game(gameParams, p1, p2);
+            }
+        }
+        fireTournamentEnded();
+        return null;
+    }
+
+    public void addTournamentListener(Listener l) {
+        listeners.add(l);
+    }
+
+    public void fireTournamentEnded() {
+        for (Listener l : listeners)
+            l.tournamentEnded();
+    }
+
+
+
+    public interface Listener
+    {
+        public void tournamentEnded();
+    }
+}

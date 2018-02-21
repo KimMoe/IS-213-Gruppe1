@@ -1,0 +1,30 @@
+package is207.connectn.gui;
+
+import is207.connectn.strategy.StrategyManager;
+import java.awt.Frame;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class PlayerDialog extends JDialog {
+
+    JTextField name;
+    JComboBox<String> strategy;
+
+
+    public PlayerDialog(int playerNo) {
+        super((Frame) null, "Enter Player " + playerNo, true);
+
+        name = new JTextField("Player" + playerNo);
+        StrategyManager stratMgr = StrategyManager.getInstance();
+        String[] strategies = stratMgr.getNames();
+        strategy = new JComboBox<>(strategies);
+    }
+
+}

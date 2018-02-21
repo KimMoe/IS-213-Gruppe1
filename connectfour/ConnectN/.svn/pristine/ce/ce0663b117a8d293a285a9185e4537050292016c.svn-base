@@ -1,0 +1,148 @@
+package is207.connectn.strategy;
+
+import is207.connectn.game.GameParams;
+import is207.connectn.strategy.Board.StackNode;
+import java.util.LinkedList;
+import java.util.List;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class NegaScout2 extends Strategy
+{
+    public static final int ME = 1;
+    public static final int THEM = -1;
+    public static final int MAX_DEPTH = 5;
+    public static final int MIN_VALUE = Integer.MIN_VALUE;
+    public static final int ALPHA = Integer.MIN_VALUE;
+    public static final int BETA = Integer.MAX_VALUE;
+
+    private int[] priCols;
+    Board state;
+
+    @Override
+    public void setup(GameParams params) {
+        super.setup(params);
+        state = new Board(rows, cols);
+    }
+
+    @Override
+    public Integer call() {
+        if (selectedMove > -1) state.doMove(ME, selectedMove);
+        if (lastMove > -1) state.doMove(THEM, lastMove);
+
+        List<Integer> validMoves = state.getLegalMoves();
+        for (int m : validMoves) {
+            int val = -negaMax(null, MAX_DEPTH, ME);
+        }
+        return 0;
+    }
+
+    private int negaMax(LinkedList<Integer> path, int depth, int player) {
+        int bestMove = -1;
+        int retVal = MIN_VALUE;
+        boolean decided = false;
+        int move = path.getLast();
+        List<Integer> validMoves = state.getLegalMoves();
+        if (haveWon(move, player)) {
+            retVal = player * 1000;
+        }
+        else if (validMoves.isEmpty()) {
+            retVal = 0;
+        }
+        else if (depth == 0) {
+            retVal = player * evalState();
+        }
+        else {
+            for (int m : validMoves) {
+                path.addLast(m);
+                state.doMove(m, player);
+                int val = -negaMax(path, depth - 1, -player);
+                state.undoMove();
+                if (val > retVal) {
+                    retVal = val;
+                }
+            }
+
+        }
+        state.undoMove();
+        return retVal;
+    }
+
+    /**
+     * Quick eval, returns true if the last move
+     * connected n pieces
+     */
+    private boolean haveWon(int move, int player) {
+        StackNode sn = state.moveStack.getLast();
+        assert move == sn.col;
+        assert state.state[sn.row][sn.col] == player;
+
+        return connected(sn, 1, 0)
+                || connected(sn, 1, 1)
+                || connected(sn, 0, 1)
+                || connected(sn, -1, 1)
+                || connected(sn, -1, 0)
+                || connected(sn, -1, -1)
+                || connected(sn, 0, -1)
+                || connected(sn, 1, -1);
+
+    }
+
+    private boolean connected(StackNode sn, int dr, int dc) {
+        for (int i = 1; i < nConn; i++) {
+            int r = sn.row + i * dr;
+            int c = sn.col + i * dc;
+            if (r < 0) return false;
+            if (r >= rows) return false;
+            if (c < 0) return false;
+            if (c >= cols) return false;
+            if (state.state[r][c] != sn.player) return false;
+        }
+        return true;
+    }
+
+    private int evalState() {
+        int points = 0;
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++) {
+                points += count(r, c, 1, 0);
+                points += count(r, c, 1, 1);
+                points += count(r, c, 0, 1);
+                points += count(r, c, -1, 1);
+                points += count(r, c, -1, 0);
+                points += count(r, c, -1, -1);
+                points += count(r, c, 0, -1);
+                points += count(r, c, 1, -1);
+            }
+        return points;
+    }
+
+    private int count(int r, int c, int dr, int dc) {
+        int p = state.state[r][c];
+
+        for (int i = 1; i < nConn; i++) {
+            int r2 = r + i * dr;
+            int c2 = c + i * dc;
+            if (r2 < 0 || r2 >= rows || c2 < 0 || c2 >= cols
+                    || state.state[r][c] != p) {
+                switch (nConn - i) {
+                case 1:
+                    return p * (100 - 10 * Math.abs(c2 - cols / 2));
+                case 2:
+                    return p * (10 - Math.abs(c2 - cols / 2));
+                }
+            }
+        }
+        return p * 1000;
+    }
+
+    public static void main(String[] args) {
+        NegaScout2 ns = new NegaScout2();
+        ns.setup(new GameParams());
+        ns.evalState();
+    }
+}

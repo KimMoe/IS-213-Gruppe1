@@ -1,0 +1,841 @@
+package connectN.ctN;
+
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+
+
+
+/**
+ * GUI for the connectN application.
+ */
+public class ConnectNGUI extends JFrame {
+
+    // Pointer to the game that this GUI controls.
+
+    private final ConnectNGame cNGame;
+
+    // GUI elements that get updated.
+    private BoardBox boardBox;
+    private JLabel p1Label, p2Label;
+    private JLabel statusLabel;
+
+    private JLabel p1ChangeLabel;
+    private JLabel p2ChangeLabel;
+    private Choice p1Choice;
+    private Choice p2Choice;
+    Class availablePlayers[];
+
+    private JButton resetButton, stepButton, playButton, pauseButton;
+    private JLabel ngamesLabel, maxTimeLabel, numRandMovesLabel, ConnectNLabel;
+    private JButton ngamesButton, maxTimeButton, numRandMovesButton;
+    private Cell turnCell;
+    private JLabel gameLabel, moveLabel;
+    private Box mainPanel;
+    private JCheckBox announceCheckBox;
+    private JLabel p1GamesLabel, p2GamesLabel;
+    private JLabel p1ScoreLabel, p2ScoreLabel;
+
+
+    public void pressStepButton() {
+        ActionListener task = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                stepButton.doClick();
+            }
+        };
+        javax.swing.Timer t = new javax.swing.Timer(0, task);
+        t.setRepeats(false);
+        t.start();
+    }
+
+    // GUI callbacks.
+
+    public void reset() {
+        cNGame.newMatch();
+    }
+
+
+    public void step() {
+        cNGame.step();
+    }
+
+
+    public void pause() {
+        cNGame.pause();
+    }
+
+
+    public void play() {
+        cNGame.play();
+    }
+
+
+    public void changeNGames() {
+        while (true) {
+            String s = JOptionPane.showInputDialog(
+                    this, "Enter number of games:");
+            if (s==null)
+                return;
+            try {
+                cNGame.changeNGames(Integer.parseInt(s));
+                break;
+            }
+            catch (NumberFormatException e) {
+                // Ask again.
+            }
+        }
+    }
+
+
+    public void changeNumRandMoves() {
+        while (true) {
+            String s = JOptionPane.showInputDialog(
+                    this, "Enter number random moves:");
+            if (s==null)
+                return;
+            try {
+                cNGame.changeNumRandMoves(Integer.parseInt(s));
+                break;
+            }
+            catch (NumberFormatException e) {
+                // Ask again.
+            }
+        }
+    }
+
+
+    public void changeMaxMoveTime() {
+        while (true) {
+            String s = JOptionPane.showInputDialog(
+                    this, "Enter maximum move time (ms):");
+            if (s==null)
+                return;
+            try {
+                cNGame.changeMaxMoveTime(Integer.parseInt(s));
+                break;
+            }
+            catch (NumberFormatException e) {
+                // Ask again.
+            }
+        }
+    }
+
+    /*
+     public void updateNow() {
+     mainPanel.paintImmediately(mainPanel.getBounds());
+     }
+     */
+
+    public void handleBoardClick(int row, int col) {
+        cNGame.moveHuman(row, col);
+    }
+
+
+    /**
+     * Routines to update the GUI.
+     */
+
+    public void updateBoard(ConnectNBoard board) {
+        boardBox.update(board);
+    }
+
+
+    public void updateTurn(int player) {
+        turnCell.update(player);
+    }
+
+
+    public void updateGame(int game, int ngames, int nmoves) {
+        numRandMovesLabel.setText(" "+nmoves);
+        numRandMovesLabel.repaint();
+        gameLabel.setText(" "+game);
+        gameLabel.repaint();
+        ngamesLabel.setText(" "+ngames);
+        ngamesLabel.repaint();
+    }
+
+
+    public void updateMaxTime(int maxTime) {
+        maxTimeLabel.setText(""+maxTime);
+        maxTimeLabel.repaint();
+    }
+
+
+    public void updateMove(int move) {
+        moveLabel.setText(""+move);
+        moveLabel.repaint();
+    }
+
+
+    public void updateP1Name(String p1Name) {
+        p1Label.setText(p1Name);
+        p1Label.repaint();
+    }
+
+
+    public void updateP2Name(String p2Name) {
+        p2Label.setText(p2Name);
+        p2Label.repaint();
+    }
+
+
+    public void updateNames(String p1Name, String p2Name) {
+        updateP1Name(p1Name);
+        updateP2Name(p2Name);
+    }
+
+
+    public void updateStatus() {
+        updateStatus("Ready.");
+    }
+
+
+    public void updateStatus(String status) {
+        statusLabel.setText(
+                (cNGame.isPaused() ? "[paused] " : "")+status);
+        statusLabel.repaint();
+    }
+
+
+    public void updateScore(
+            int p1GamesWon, int p2GamesWon,
+            int p1Points, int p2Points) {
+        p1GamesLabel.setText(""+p1GamesWon);
+        p2GamesLabel.setText(""+p2GamesWon);
+        p1ScoreLabel.setText(""+p1Points);
+        p2ScoreLabel.setText(""+p2Points);
+    }
+
+
+    public void announceGameWinner(
+            String name, int gameNum, int numGames) {
+        if (announceCheckBox.isSelected()) {
+            String msg;
+            if (name==null) {
+                msg = "Game "+gameNum
+                        +" of "+numGames+" is a draw.";
+            }
+            else {
+                msg = name+" wins game "+gameNum
+                        +" of "+numGames+".";
+            }
+            cNGame.status(msg);
+            JOptionPane.showMessageDialog(this, msg);
+        }
+    }
+
+
+    public void announceMatchWinner(String name, int nwon, int nlost) {
+        String msg;
+        if (nwon==nlost) {
+            msg = "The match is a draw: "+nwon
+                    +" games each.";
+        }
+        else {
+            msg = name+" wins the match "+nwon
+                    +" games to "+nlost+".";
+        }
+        cNGame.status(msg);
+        JOptionPane.showMessageDialog(this, msg);
+    }
+
+
+    public ConnectNGUI(
+            String title, ConnectNGame game, int rows, int cols, int connected) {
+
+        setTitle(title);
+
+        // Save a pointer to the game class, so we can control it.
+        this.cNGame = game;
+
+        // Allocate all the GUI elements we need to keep track of.
+        statusLabel = new JLabel();
+        gameLabel = new JLabel();
+        moveLabel = new JLabel();
+        turnCell = new Cell(25, 4);
+        boardBox = new BoardBox(rows, cols);
+
+        p1ChangeLabel = new JLabel("Choose the first player:       ");
+        p1Choice = new Choice();
+        p2ChangeLabel = new JLabel("Choose the second player: ");
+        p2Choice = new Choice();
+
+        p1Label = new JLabel();
+        p2Label = new JLabel();
+        ConnectNLabel = new JLabel();
+        ConnectNLabel.setText(" "+String.valueOf(connected));
+        ngamesButton = new JButton("Change");
+        ngamesLabel = new JLabel();
+        numRandMovesButton = new JButton("Change");
+        numRandMovesLabel = new JLabel();
+        maxTimeButton = new JButton("Change");
+        maxTimeLabel = new JLabel();
+        resetButton = new JButton("New Match");
+        stepButton = new JButton("Step");
+        playButton = new JButton("Auto-Play");
+        pauseButton = new JButton("Pause");
+        announceCheckBox = new JCheckBox("Announce Game Winner", false);
+        mainPanel = Box.createVerticalBox();
+        p1GamesLabel = new JLabel();
+        p2GamesLabel = new JLabel();
+        p1ScoreLabel = new JLabel();
+        p2ScoreLabel = new JLabel();
+
+        turnCell.setBackground(Color.gray);
+        turnCell.setBorder(
+                BorderFactory.createRaisedBevelBorder());
+        p1Label.setForeground(Color.blue);
+        p2Label.setForeground(Color.red);
+        p1GamesLabel.setForeground(Color.blue);
+        p2GamesLabel.setForeground(Color.red);
+        p1ScoreLabel.setForeground(Color.blue);
+        p2ScoreLabel.setForeground(Color.red);
+
+        // ***** BEGIN LAYOUT *****
+        Box statusPanel = Box.createHorizontalBox();
+        statusPanel.add(hstrut(10));
+        statusPanel.add(new JLabel("Status: "));
+        statusPanel.add(statusLabel);
+        statusPanel.add(hstrut(10));
+        statusPanel.add(Box.createHorizontalGlue());
+
+        Box statusPanel2 = Box.createHorizontalBox();
+        statusPanel2.add(hstrut(10));
+        statusPanel2.add(announceCheckBox);
+        statusPanel2.add(hstrut(10));
+        statusPanel2.add(hstrut(50));
+        statusPanel2.add(Box.createHorizontalGlue());
+        statusPanel2.add(hstrut(20));
+        statusPanel2.add(new JLabel("Move #"));
+        statusPanel2.add(moveLabel);
+        statusPanel2.add(hstrut(20));
+        statusPanel2.add(new JLabel("Game #"));
+        statusPanel2.add(gameLabel);
+        statusPanel2.add(hstrut(20));
+        statusPanel2.add(new JLabel("Turn:"));
+        statusPanel2.add(hstrut(10));
+        statusPanel2.add(turnCell);
+        statusPanel2.add(hstrut(100));
+
+        Box p1Panel = Box.createHorizontalBox();
+        p1Panel.add(p1ChangeLabel);
+        p1Panel.add(p1Choice);
+
+        Box p2Panel = Box.createHorizontalBox();
+        p2Panel.add(new JLabel("Player #1: "));
+        p2Panel.add(p1Label);
+        p2Panel.add(Box.createHorizontalGlue());
+
+        Box p3Panel = Box.createHorizontalBox();
+        p3Panel.add(vstrut(30));
+        p3Panel.add(p2ChangeLabel);
+        p3Panel.add(p2Choice);
+
+        Box p4Panel = Box.createHorizontalBox();
+        p4Panel.add(new JLabel("Player #2: "));
+        p4Panel.add(p2Label);
+        p4Panel.add(Box.createHorizontalGlue());
+
+        Box p5Panel = Box.createHorizontalBox();
+        p5Panel.add(new JLabel("Winning connection size: "));
+        p5Panel.add(ConnectNLabel);
+        p5Panel.add(Box.createHorizontalGlue());
+
+        Box ngamesPanel = Box.createHorizontalBox();
+        ngamesPanel.add(ngamesButton);
+        ngamesPanel.add(hstrut(10));
+        ngamesPanel.add(new JLabel("Number of Games: "));
+        ngamesPanel.add(ngamesLabel);
+        ngamesPanel.add(Box.createHorizontalGlue());
+
+        Box randMovesPanel = Box.createHorizontalBox();
+        randMovesPanel.add(numRandMovesButton);
+        randMovesPanel.add(hstrut(10));
+        randMovesPanel.add(new JLabel("Number of Seed Moves: "));
+        randMovesPanel.add(numRandMovesLabel);
+        randMovesPanel.add(Box.createHorizontalGlue());
+
+        Box timePanel = Box.createHorizontalBox();
+        timePanel.add(maxTimeButton);
+        timePanel.add(hstrut(10));
+        timePanel.add(new JLabel("Max Move Time (ms): "));
+        timePanel.add(maxTimeLabel);
+        timePanel.add(Box.createHorizontalGlue());
+
+        Box paramPanel = Box.createVerticalBox();
+        paramPanel.add(p1Panel);
+        paramPanel.add(p2Panel);
+        paramPanel.add(p3Panel);
+        paramPanel.add(p4Panel);
+        paramPanel.add(p5Panel);
+        paramPanel.add(vstrut(10));
+        paramPanel.add(ngamesPanel);
+        paramPanel.add(randMovesPanel);
+        paramPanel.add(timePanel);
+        paramPanel.add(Box.createVerticalGlue());
+
+        Box buttonPanel = Box.createHorizontalBox();
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(resetButton);
+        buttonPanel.add(stepButton);
+        buttonPanel.add(pauseButton);
+        buttonPanel.add(playButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+
+        Cell spacerCell = new Cell(20, 2);
+        spacerCell.setPlayer(-1);
+        Cell p1Cell = new Cell(20, 2);
+        p1Cell.setPlayer(1);
+        Cell p2Cell = new Cell(20, 2);
+        p2Cell.setPlayer(2);
+        spacerCell.setBackground(getBackground());
+        p1Cell.setBackground(getBackground());
+        p2Cell.setBackground(getBackground());
+
+        Box scoreCol1 = Box.createVerticalBox();
+        scoreCol1.add(Box.createVerticalGlue());
+        scoreCol1.add(spacerCell);
+        scoreCol1.add(Box.createVerticalGlue());
+        scoreCol1.add(Box.createVerticalGlue());
+        scoreCol1.add(p1Cell);
+        scoreCol1.add(Box.createVerticalGlue());
+        scoreCol1.add(Box.createVerticalGlue());
+        scoreCol1.add(p2Cell);
+        scoreCol1.add(Box.createVerticalGlue());
+
+        Box scoreCol2 = Box.createVerticalBox();
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(new JLabel("Games"));
+            b.add(Box.createHorizontalGlue());
+            scoreCol2.add(Box.createVerticalGlue());
+            scoreCol2.add(b);
+            scoreCol2.add(Box.createVerticalGlue());
+        }
+        scoreCol2.add(vstrut(5));
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(p1GamesLabel);
+            b.add(Box.createHorizontalGlue());
+            scoreCol2.add(Box.createVerticalGlue());
+            scoreCol2.add(b);
+            scoreCol2.add(Box.createVerticalGlue());
+        }
+        scoreCol2.add(vstrut(5));
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(p2GamesLabel);
+            b.add(Box.createHorizontalGlue());
+            scoreCol2.add(Box.createVerticalGlue());
+            scoreCol2.add(b);
+            scoreCol2.add(Box.createVerticalGlue());
+        }
+
+        Box scoreCol3 = Box.createVerticalBox();
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(new JLabel("Score"));
+            b.add(Box.createHorizontalGlue());
+            scoreCol3.add(Box.createVerticalGlue());
+            scoreCol3.add(b);
+            scoreCol3.add(Box.createVerticalGlue());
+        }
+        scoreCol3.add(vstrut(5));
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(p1ScoreLabel);
+            b.add(Box.createHorizontalGlue());
+            scoreCol3.add(Box.createVerticalGlue());
+            scoreCol3.add(b);
+            scoreCol3.add(Box.createVerticalGlue());
+        }
+        scoreCol3.add(vstrut(5));
+        {
+            Box b = Box.createHorizontalBox();
+            b.add(Box.createHorizontalGlue());
+            b.add(p2ScoreLabel);
+            b.add(Box.createHorizontalGlue());
+            scoreCol3.add(Box.createVerticalGlue());
+            scoreCol3.add(b);
+            scoreCol3.add(Box.createVerticalGlue());
+        }
+
+        Box scorePanel = Box.createHorizontalBox();
+        scorePanel.add(scoreCol2);
+        // scorePanel.add(scoreCol1);
+        scorePanel.add(hstrut(10));
+        scorePanel.add(scoreCol3);
+        scorePanel.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createEtchedBorder(),
+                        BorderFactory.createMatteBorder(
+                                5, 10, 5, 10, getBackground())));
+
+        JPanel scorePanel2 = new JPanel(new FlowLayout());
+        scorePanel2.add(scorePanel);
+
+        Box scorePanel3 = Box.createVerticalBox();
+        // scorePanel3.add(vstrut(20));
+        scorePanel3.add(scorePanel2);
+        scorePanel3.add(Box.createVerticalGlue());
+
+        Box midPanel = Box.createHorizontalBox();
+        midPanel.add(hstrut(20));
+        midPanel.add(Box.createHorizontalGlue());
+        midPanel.add(boardBox);
+        midPanel.add(Box.createHorizontalGlue());
+        midPanel.add(hstrut(20));
+
+        Box bottomPanel = Box.createHorizontalBox();
+        bottomPanel.add(hstrut(20));
+        bottomPanel.add(paramPanel);
+        bottomPanel.add(hstrut(20));
+        bottomPanel.add(Box.createHorizontalGlue());
+        bottomPanel.add(scorePanel3);
+        bottomPanel.add(hstrut(20));
+
+        mainPanel.add(vstrut(10));
+        mainPanel.add(statusPanel);
+        mainPanel.add(vstrut(5));
+        mainPanel.add(statusPanel2);
+        mainPanel.add(vstrut(5));
+        mainPanel.add(buttonPanel);
+        mainPanel.add(vstrut(10));
+        mainPanel.add(midPanel);
+        mainPanel.add(vstrut(10));
+        mainPanel.add(bottomPanel);
+        mainPanel.add(vstrut(10));
+        mainPanel.add(Box.createVerticalGlue());
+
+        getContentPane().setLayout(
+                new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        getContentPane().add(mainPanel);
+
+        pack();
+        {
+            Dimension dim = mainPanel.getPreferredSize();
+            dim.width = 550;
+            setSize(dim);
+        }
+        pack();
+
+        //Get all available players from file "playerClasses.txt"
+        String playerClassesFileName = "playerClasses.txt";
+        try {
+            StreamTokenizer tokenizer
+                    = new StreamTokenizer(new FileInputStream(playerClassesFileName));
+            tokenizer.eolIsSignificant(false);
+
+            tokenizer.nextToken();
+            int numPlayers = (int) (tokenizer.nval);
+            availablePlayers = new Class[numPlayers];
+            try {
+                for (int i = 0; i<numPlayers; i++) {
+                    tokenizer.nextToken();
+                    String className = tokenizer.sval;
+                    availablePlayers[i] = Class.forName(className);
+                }
+            }
+            catch (ClassNotFoundException inCNFE) {
+                System.out.println("Class not found from playerClasses.txt");
+                throw new Exception();
+            }
+        }
+        catch (Exception inE) {
+            try {
+                availablePlayers = new Class[1];
+                availablePlayers[0] = Class.forName("connectN.players.RandomPlayer");
+            }
+            catch (ClassNotFoundException inCNFE) {
+                System.out.println("Class not found: "
+                        +"RandomPlayer"+", exiting.");
+                System.exit(1);
+            }
+        }
+
+        for (int i = 0; i<availablePlayers.length; i++) {
+            p1Choice.add(availablePlayers[i].getName());
+            p2Choice.add(availablePlayers[i].getName());
+        }
+        p1Choice.addItemListener(new p1ChoiceListener());
+        p2Choice.addItemListener(new p2ChoiceListener());
+
+        // ***** END LAYOUT *****
+        // Register callbacks for the buttons.
+        ngamesButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeNGames();
+                    }
+                });
+        numRandMovesButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeNumRandMoves();
+                    }
+                });
+        maxTimeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeMaxMoveTime();
+                    }
+                });
+        resetButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        reset();
+                    }
+                });
+        stepButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        step();
+                    }
+                });
+        pauseButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        pause();
+                    }
+                });
+        playButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        play();
+                    }
+                });
+    }
+
+
+    // Don't use Box.createHorizontalStrut() for this, since horizontal
+    // struts seem to produce vertical glue that fills extra vertical space.
+
+    private Component hstrut(int width) {
+        return Box.createRigidArea(new Dimension(width, 0));
+    }
+
+
+    // We appear to be able to use either Box.createRigidArea() or
+    // Box.createVerticalStrut() to produce vertical struts.
+
+
+    private Component vstrut(int height) {
+        return Box.createRigidArea(new Dimension(0, height));
+        //return Box.createVerticalStrut(height);
+    }
+
+
+
+    /**
+     * This class displays a ConnectN game board.
+     */
+    private class BoardBox extends Box {
+
+        private final int BORDER = 4;
+        private int rows, cols;
+        private Cell[][] cells;
+
+
+        BoardBox(int rows, int cols) {
+            super(BoxLayout.Y_AXIS);
+            this.rows = rows;
+            this.cols = cols;
+            this.cells = new Cell[rows][cols];
+            Box boardBox = Box.createHorizontalBox();
+            for (int c = 0; c<cols; c++) {
+                Box colBox = Box.createVerticalBox();
+                for (int r = rows-1; r>=0; r--) {
+                    cells[r][c] = new Cell(30, 3, r, c);
+                    cells[r][c].addMouseListener(cells[r][c].mouseListener());
+                    colBox.add(cells[r][c]);
+                }
+                boardBox.add(colBox);
+            }
+            boardBox.setBorder(
+                    BorderFactory.createCompoundBorder(
+                            BorderFactory.createRaisedBevelBorder(),
+                            BorderFactory.createMatteBorder(
+                                    BORDER, BORDER, BORDER, BORDER, Color.lightGray)));
+            add(boardBox);
+        }
+
+
+        public void update(ConnectNBoard board) {
+           // assert board.numRows() == rows;
+            // assert board.numCols() == cols;
+            for (int c = 0; c<cols; c++) {
+                for (int r = 0; r<rows; r++) {
+                    cells[r][c].update(board.get(r, c));
+                }
+            }
+        }
+    }
+
+
+
+    /**
+     * This class displays a single cell in a ConnectN game board. It
+     * has the ability to disptach clicks to the GUI for human
+     * players.
+     */
+    private class Cell extends JComponent {
+
+        private boolean mouseInside;
+        private int player;
+        private final int size;
+        private final int border;
+        private final int row, col;
+
+
+        public Cell(int size, int border) {
+            this(size, border, -1, -1);
+        }
+
+
+        public Cell(int size, int border, int row, int col) {
+            this(size, border, row, col, 0);
+        }
+
+
+        public Cell(int size, int border, int row, int col, int player) {
+            this.size = size;
+            this.border = border;
+            this.mouseInside = false;
+            this.row = row;
+            this.col = col;
+            this.player = player;
+            setBackground(Color.lightGray);
+            Dimension dim = new Dimension(size, size);
+            setMinimumSize(dim);
+            setMaximumSize(dim);
+            setPreferredSize(dim);
+            setSize(dim);
+
+            addMouseListener(
+                    new MouseAdapter() {
+                        public void mouseEntered(MouseEvent e) {
+                            mouseEnter();
+                        }
+
+
+                        public void mouseExited(MouseEvent e) {
+                            mouseExit();
+                        }
+                    });
+        }
+
+
+        private void mouseEnter() {
+            mouseInside = true;
+            repaint();
+        }
+
+
+        private void mouseExit() {
+            mouseInside = false;
+            repaint();
+        }
+
+
+        public MouseListener mouseListener() {
+            return new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    handleBoardClick(row, col);
+                }
+            };
+        }
+
+
+        public void setPlayer(int player) {
+            this.player = player;
+        }
+
+
+        public void update(int player) {
+            this.player = player;
+            repaint();
+        }
+
+
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+
+            super.paintComponent(g);
+
+            g2.setPaint(getBackground());
+            g2.fill(new Rectangle2D.Double(0, 0, size, size));
+
+            Ellipse2D disc = new Ellipse2D.Double();
+            disc.setFrame(
+                    new Rectangle2D.Double(
+                            border, border, size-2*border-1, size-2*border-1));
+            switch (player) {
+            case 0:
+                g2.setPaint(
+                        mouseInside ? Color.darkGray : Color.white);
+                break;
+            case 1:
+                g2.setPaint(Color.blue);
+                break;
+            case 2:
+                g2.setPaint(Color.red);
+                break;
+            default:
+                g2.setPaint(getBackground());
+                break;
+            }
+            g2.fill(disc);
+        }
+    }
+
+
+
+    private class p1ChoiceListener implements ItemListener {
+
+        public void itemStateChanged(ItemEvent inIE) {
+            String s = p1Choice.getSelectedItem();
+            String name = null;
+
+            if (s.equals("HumanPlayer")) {
+                do {
+                    name = JOptionPane.showInputDialog(
+                            this, "Enter Name:");
+                    if (name==null)
+                        return;
+                }
+                while (name.length()==0);
+            }
+            cNGame.changeP1(s, name);
+        }
+    }
+
+
+
+    private class p2ChoiceListener implements ItemListener {
+
+        public void itemStateChanged(ItemEvent inIE) {
+            String s = p2Choice.getSelectedItem();
+            String name = null;
+
+            if (s.equals("HumanPlayer")) {
+                do {
+                    name = JOptionPane.showInputDialog(
+                            this, "Enter Name:");
+                    if (name==null)
+                        return;
+                }
+                while (name.length()==0);
+            }
+
+            cNGame.changeP2(s, name);
+        }
+    }
+
+}

@@ -1,0 +1,20 @@
+package is207.connectn.game.strategy;
+
+import is207.connectn.game.Strategy;
+import javax.swing.JOptionPane;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class HumanStrategy extends Strategy {
+
+    @Override
+    public Integer call() {
+        JOptionPane.showInputDialog(null, "Enter move:");
+        return 0;
+    }
+
+}

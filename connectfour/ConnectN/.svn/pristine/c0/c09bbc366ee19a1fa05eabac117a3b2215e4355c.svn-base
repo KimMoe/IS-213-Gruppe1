@@ -1,0 +1,73 @@
+package is207.connectn.game;
+
+import is207.connectn.game.strategy.Strategy;
+import is207.connectn.game.strategy.HumanStrategy;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+
+
+
+/**
+ * Representation of a player
+ *
+ * @author evenal
+ */
+public final class Player
+{
+
+    private String name;
+    private Color colour;
+    private Strategy strategy;
+    ExecutorService exec;
+    Random rand;
+
+    public Player(String name, Color colour, Strategy strategy) {
+        this.name = name;
+        this.colour = colour;
+        this.strategy = strategy;
+        exec = Executors.newSingleThreadExecutor();
+        rand = new Random();
+    }
+
+    public final int selectMove(int lastMove, ArrayList<Integer> moves)
+            throws InterruptedException, ExecutionException {
+        strategy.prepare(lastMove, moves);
+
+        // hack to allow human players unlimited time to think.
+        if (strategy.getClass() == HumanStrategy.class) {
+            int move = strategy.call();
+            return move;
+        }
+        else {
+            Future<Integer> result = exec.submit(strategy);
+            try {
+                int timeout = strategy.getTimeout();
+                Integer move = -1;
+                move = result.get(timeout, strategy.getTimeUnit());
+            }
+            catch (TimeoutException e) {
+                // return a random move
+                if (strategy.getSelectedMove() < 0) {
+                    System.err.println("Drawing a random move for " + name);
+                    return moves.get(rand.nextInt(moves.size()));
+                }
+            }
+            return strategy.getSelectedMove();
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Color getColour() {
+        return colour;
+    }
+
+}

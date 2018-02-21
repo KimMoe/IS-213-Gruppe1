@@ -1,0 +1,43 @@
+package is207.connectn.game.strategy;
+
+import is207.connectn.game.GameParams;
+import is207.connectn.game.strategy.minimax.Board;
+import java.util.Random;
+
+
+
+/**
+ *
+ * @author evenal
+ */
+public class RandomStrategy extends Strategy {
+
+    private static Random rand = new Random();
+    private static final int ME = 1;
+    private static final int HIM = -1;
+    Board board;
+    boolean haveMoved = false;
+
+
+    @Override
+    public void setup(GameParams params) {
+        super.setup(params);
+        board = new Board(rows, cols);
+        selectedMove = lastMove = -1;
+    }
+
+    @Override
+    public Integer call() {
+        // update board
+        if (selectedMove >= 0) board.doMove(selectedMove, ME);
+        if (lastMove >= 0) board.doMove(lastMove, HIM);
+
+        haveMoved = true;
+
+        int n = validMoves.size();
+        int i = rand.nextInt(n);
+        selectedMove = validMoves.get(i);
+        System.out.println("Returning random move " + i + ": " + selectedMove);
+        return selectedMove;
+    }
+}
