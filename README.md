@@ -71,7 +71,9 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Authors
 
 Moe, Kim Arild
+
 Sakseid, Vegard
+
 Røren, Tønnes
 
 ## License
