@@ -75,7 +75,7 @@ Moe, Kim Arild
 
 Sakseid, Vegard
 
-Røren, Tønnes
+Røren, Tønnes Tobias Pedersen
 
 ## License
 
