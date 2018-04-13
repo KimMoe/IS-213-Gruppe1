@@ -79,6 +79,9 @@ Røren, Tønnes
 
 ## License
 
+Licensed under MIT license. 
+
+[MIT](https://opensource.org/licenses/MIT)
 
 
 ## Acknowledgments
