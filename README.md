@@ -69,7 +69,7 @@ Add additional notes about how to deploy this on a live system
 
 We use [SemVer](http://semver.org/) for versioning. 
 
-## Authors
+## Authors/Contributors
 
 Moe, Kim Arild
 
@@ -79,7 +79,7 @@ Røren, Tønnes Tobias Pedersen
 
 ## License
 
-[Licensed under MIT license.](https://opensource.org/licenses/MIT)
+[Licensed under MIT license.](https://github.com/KimMoe/IS-213-Gruppe1/blob/master/LICENSE)
 
 ## Acknowledgments
 
