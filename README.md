@@ -1,6 +1,7 @@
 # Project Title
 
-One Paragraph of project description goes here
+This is a school project were we try to get a better understanding of machine learning and neural networks.
+We have made a basic pong game in Java. We will try and use a neural network to learn and play the game.
 
 ## Getting Started
 
