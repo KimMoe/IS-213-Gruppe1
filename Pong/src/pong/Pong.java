@@ -5,6 +5,7 @@
  */
 package pong;
 
+import NeuralNetwork.NN;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -28,7 +29,7 @@ public class Pong implements ActionListener, KeyListener {
     
     public int width = 700;
     public int height = 700;
- 
+    
     public Rendering renderer;
     public Ball ball;   
     public Paddle player1;
@@ -48,6 +49,7 @@ public class Pong implements ActionListener, KeyListener {
     }
     
     public Pong() {        
+        NN nn = new NN();
         Timer timer = new Timer(20, this);
         JFrame frame = new JFrame("Pong");
         random = new Random();
@@ -117,7 +119,7 @@ public class Pong implements ActionListener, KeyListener {
     }
     
     public void render(Graphics2D g) {
-        g.setColor(Color.black);
+        g.setColor(Color.lightGray);
         g.fillRect(0, 0, width, height);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);      
         

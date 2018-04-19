@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class Ball {
       
-    public int x, y, width = 25, height = 25;
+    public int x, y, width = 13, height = 13;
     public int motionx, motiony;
 
     public int amoutofHits;
@@ -116,7 +116,7 @@ public class Ball {
     }
     
     public void render(Graphics g) {
-        g.setColor(Color.white);
+        g.setColor(Color.YELLOW);
         g.fillOval(x, y, width, height);       
     }
 }
