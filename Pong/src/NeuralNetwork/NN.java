@@ -5,11 +5,13 @@
  */
 package NeuralNetwork;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
-import org.neuroph.util.TransferFunctionType;
+import org.neuroph.util.TrainingSetImport;
 
 /**
  *
@@ -18,17 +20,41 @@ import org.neuroph.util.TransferFunctionType;
 public class NN {
     private NeuralNetwork neuralNetwork;
     private MomentumBackpropagation learningRule;
+    private DataSet trainingSet;
+    private int inputCount;
+    private int outputCount;
+    private String fileName;
 
     public NN() {
-        neuralNetwork = new Perceptron(2,1);
+        inputCount = 3;
+        outputCount= 1;
+        fileName = "data.txt";
+        neuralNetwork = new Perceptron(inputCount,outputCount); //Input: paddle, ball x, ball y, (poeng?)
         learningRule = (MomentumBackpropagation) neuralNetwork.getLearningRule();
-        
+        trainingSet();
     }   
     
     private void learningRule(){
         learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte
         learningRule.setMomentum(0.8); 
-        
+    }
+ 
+    /**
+     * Mulig løsning; skrive data fra et spill til en fil, NN lærer datasettet før neste spill
+     */
+    private void trainNN(){
+        neuralNetwork.learn(trainingSet);
     }
     
+    private void trainingSet(){
+        try{
+            trainingSet = TrainingSetImport.importFromFile(fileName, inputCount, outputCount, ",");
+        }
+        catch (FileNotFoundException ex){
+            System.out.println("File " + fileName + " not found");
+        }
+        catch (IOException|NumberFormatException ex) {
+            System.out.println("Error reading file or bad number format!");
+        }
+    }
 }
