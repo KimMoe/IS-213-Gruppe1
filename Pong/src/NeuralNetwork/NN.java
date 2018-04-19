@@ -31,12 +31,9 @@ public class NN {
         fileName = "data.txt";
         neuralNetwork = new Perceptron(inputCount,outputCount); //Input: paddle, ball x, ball y, (poeng?)
         learningRule = (MomentumBackpropagation) neuralNetwork.getLearningRule();
-        trainingSet();
-    }   
-    
-    private void learningRule(){
         learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte
-        learningRule.setMomentum(0.8); 
+        learningRule.setMomentum(0.8);
+        trainingSet();
     }
  
     /**
