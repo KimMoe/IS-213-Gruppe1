@@ -54,7 +54,7 @@ public class PongNNet implements ActionListener, KeyListener {
         pong = new PongNNet();
     }
     
-    public PongNNet() {        
+    public PongNNet() {
         //NN nn = new NN();
         
         //How often the game is updated. Basiclly fps.
@@ -191,7 +191,7 @@ public class PongNNet implements ActionListener, KeyListener {
                 if (!disableBot) {
                     bot = true; 
                 }
-            } 
+            }
             start(); break;
         }
     }
