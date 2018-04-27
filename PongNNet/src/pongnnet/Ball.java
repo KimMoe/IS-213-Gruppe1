@@ -7,6 +7,9 @@ package pongnnet;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 /**
@@ -24,7 +27,7 @@ public class Ball {
     
     private PongNNet pong;
     
-    public Ball(PongNNet pong) {
+    public Ball(PongNNet pong) {      
         this.random = new Random();
         this.pong = pong;  
         spawn();
@@ -55,31 +58,30 @@ public class Ball {
         }      
         
         if (checkCollision(paddle1) == 1) {
-            this.motionx = 1 + (amoutofHits / 5);
+            this.motionx = 1;
             this.motiony = -2 + random.nextInt(4);
            
             if (motiony == 0) {
                 motiony = 1;
             } 
             paddle1.score++;
-            amoutofHits++;
         }
         else if (checkCollision(paddle2) == 1) {
-            this.motionx = -1 - (amoutofHits / 5);
+            this.motionx = -1;
             this.motiony = -2 + random.nextInt(4);
             
             if (motiony == 0) {
                 motiony = 1;
             }
-            paddle2.score++;
-            amoutofHits++;            
+            paddle2.score++;         
         } 
         
         if (checkCollision(paddle1) == 2) {
             //Add more points for scoring or? <--------------------
             //paddle1.score++;
             
-            //Reset score when the ball is lost. Swap out for real reset of game. <------------------------
+            saveFile(paddle1.y, pong.ball.y, paddle1.score);
+            
             paddle1.score = 0;
             paddle2.score = 0;
             
@@ -100,7 +102,6 @@ public class Ball {
     
     //Do neural network stuff when it spawns. 
     public void spawn() {
-        this.amoutofHits = 0;
         this.x = pong.width / 2 - this.width /2;
         this.y = pong.height / 2 - this.height /2;
         
@@ -124,7 +125,7 @@ public class Ball {
         }
         
         else if ((paddle.x > x && paddle.paddlenumb == 1) || (paddle.x < x - width && paddle.paddlenumb == 2)) {
-            return 2;
+            return 2; 
         }
         
         return 0;    
@@ -132,6 +133,15 @@ public class Ball {
     
     public void render(Graphics g) {
         g.setColor(Color.black);
-        g.fillOval(x, y, width, height);       
+        g.fillOval(x, y, width, height);
+    }
+    
+    public void saveFile(int paddle, int ball, int score) {
+        try (FileWriter writer = new FileWriter("data.txt")) {
+            writer.write(""); //Deletes content of file. Just to be sure.
+            writer.write(paddle + ", " + ball + ", " + score); //Writes content to file.
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }
