@@ -16,7 +16,7 @@ public class Paddle {
 
     public int paddlenumb;
     
-    public int x, y, width = 25, height = 250; 
+    public int x, y, width = 15, height = 180; 
     
     public int score;
     
@@ -36,12 +36,12 @@ public class Paddle {
 
     public void render(Graphics g) {
         
-        g.setColor(Color.white);
+        g.setColor(Color.black);
         g.fillRect(x, y, width, height);
     }
 
     public void move(boolean up) {
-        int speed = 15;
+        int speed = 20;
         
         if(up) {
             if (y - speed > 0) {
