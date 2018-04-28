@@ -180,8 +180,8 @@ Java 8 - [Webpage](https://www.oracle.com/index.html)
 
 ## Contributing
 
-If you want to contribute to a project and make it better, your help is very welcome.
-We appreciate help bout on coding and interface as well as documentation. 
+If you want to contribute to a project and make it better, your help is very welcome. 
+We appreciate help on coding, interface as well as documentation. 
 
 ### How to make a pull request and push
 
