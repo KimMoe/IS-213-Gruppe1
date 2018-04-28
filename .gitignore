@@ -4,3 +4,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+/Pong/nbproject/private/
+neuroph-2.93/
+Pong/
