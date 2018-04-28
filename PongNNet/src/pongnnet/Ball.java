@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 
 /**
@@ -34,7 +33,7 @@ public class Ball {
     }
     
     public void update(Paddle paddle1, Paddle paddle2) {
-        int speed = 6;
+        int speed = 1;
         
         this.x += motionx * speed;
         this.y += motiony * speed;
@@ -74,12 +73,12 @@ public class Ball {
                 motiony = 1;
             }
             paddle2.score++;         
-        } 
+        }
         
         if (checkCollision(paddle1) == 2) {
             //Add more points for scoring or? <--------------------
             //paddle1.score++;
-            
+            //saveFileTest(paddle1.y,pong.ball.y,paddle1.score);
             saveFile(paddle1.y, pong.ball.y, paddle1.score);
             
             paddle1.score = 0;
@@ -92,12 +91,13 @@ public class Ball {
             //Add more points for scoring or? <--------------------
             //paddle2.score++;
             
-            //Reset the score when the ball is lost. Swap out for real reset of game. <------------------------
+            //Reset the score when the ball is lost. Maybe change a little. <------------------------
             paddle2.score = 0;
             paddle1.score = 0;
             
             spawn();
-        }    
+        }   
+        
     }
     
     //Do neural network stuff when it spawns. 
@@ -120,14 +120,18 @@ public class Ball {
     }
     
     public int checkCollision(Paddle paddle) {
+        //BUGGED. When the ball hits the top or bottom of the paddle, the score shots up. Because it's techinally behind it. <-----------------------
+        //It would be interesting if the NN learn to abuse this bug...
         if (this.x < paddle.x + paddle.width && this.x + width > paddle.x && this.y < paddle.y + paddle.height && this.y + height > paddle.y) {
+            //Ball hits paddle
             return 1;
         }
         
         else if ((paddle.x > x && paddle.paddlenumb == 1) || (paddle.x < x - width && paddle.paddlenumb == 2)) {
+            //Loses ball behind paddle.
             return 2; 
         }
-        
+        //Nothing
         return 0;    
     }
     
@@ -139,9 +143,19 @@ public class Ball {
     public void saveFile(int paddle, int ball, int score) {
         try (FileWriter writer = new FileWriter("data.txt")) {
             writer.write(""); //Deletes content of file. Just to be sure.
-            writer.write(paddle + ", " + ball + ", " + score); //Writes content to file.
+            writer.write(paddle + "," + ball + "," + score); //Writes content to file.
         } catch (IOException e) {
             System.out.println(e);
         }
     }
+
+//For getting min max data.
+    
+//    public void saveFileTest(int paddle, int ball, int score) {           
+//        try (FileWriter writer = new FileWriter("minMax.txt", true)) {
+//            writer.write(ball + ","+ score + ";\n");
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        }
+//    }
 }

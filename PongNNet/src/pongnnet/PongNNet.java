@@ -18,6 +18,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -58,7 +60,7 @@ public class PongNNet implements ActionListener, KeyListener {
         //NN nn = new NN();
         
         //How often the game is updated. Basiclly fps.
-        Timer timer = new Timer(15, this);
+        Timer timer = new Timer(2, this);
         JFrame frame = new JFrame("Pong");
         random = new Random();
         
@@ -132,9 +134,9 @@ public class PongNNet implements ActionListener, KeyListener {
             g.setFont(new Font("Arial", 1, 30));
             g.drawString(String.valueOf(player1.score), width / 2 -50, 50);
             g.drawString(String.valueOf(player2.score), width / 2 +39, 50);
-                                  
+            
             //Paddle 1
-            if (isNN) { //Develop test for Neural network. <------------------
+            if (!isNN) { //Develop test for Neural network. <------------------
                 g.setColor(Color.blue);
                 g.drawString("HUMAN", pad1String.width, pad1String.height);
             } else {

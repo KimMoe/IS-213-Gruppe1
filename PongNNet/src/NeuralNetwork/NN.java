@@ -6,7 +6,6 @@
 
 package NeuralNetwork;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
@@ -27,7 +26,7 @@ public class NN implements Normalizer{
     private int outputCount;
     private String fileName;
 
-    public NN() throws IOException {
+    public NN(){
         inputCount = 3; //Position pad, ball and score
         outputCount= 1; //If the pad should go up or down
         fileName = "data.txt";
@@ -35,24 +34,23 @@ public class NN implements Normalizer{
         learningRule = (MomentumBackpropagation) neuralNetwork.getLearningRule();
         learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte
         learningRule.setMomentum(0.8);
-        trainingSet();
+        trainingSet();       
     }
  
     /**
      * Mulig løsning; skrive data fra et spill til en fil, NN lærer datasettet før neste spill
      */
     private void trainNN(){
-        neuralNetwork.learn(trainingSet);
-        
-        
+        neuralNetwork.learn(trainingSet);     
     }
     
-    private void trainingSet() throws IOException{
+    private void trainingSet() {
         try{
             trainingSet = TrainingSetImport.importFromFile(fileName, inputCount, outputCount, ",");
         }
-        catch (NumberFormatException ex) {
-            System.out.println("Error reading file or bad number format!");
+        catch (IOException | NumberFormatException e) {
+            System.out.print("Error: ");
+            System.out.println(e);
         }
     }
 
