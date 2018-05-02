@@ -18,8 +18,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -42,7 +40,7 @@ public class PongNNet implements ActionListener, KeyListener {
     public Paddle player2;
     
     public boolean bot = false, disableBot = false;       
-    public boolean isNN = false; //IMPLEMENT <---------------   
+    public boolean isNN = true; //IMPLEMENT <---------------   
     public boolean w, s, up, down;
     
     
@@ -160,6 +158,7 @@ public class PongNNet implements ActionListener, KeyListener {
         }
     }
 
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (gameStatus == 1)  {

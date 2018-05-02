@@ -22,14 +22,14 @@ public class NN implements Normalizer{
     private NeuralNetwork neuralNetwork;
     private PerceptronLearning learningRule;
     private DataSet trainingSet;
-    private int inputCount;
-    private int outputCount;
-    private String fileName;
+    private final int inputCount;
+    private final int outputCount;
+    private final String fileName;
     private int generation;
 
     public NN(){
         inputCount = 4; //Position pad, ball (x,y) score
-        outputCount= 1; 
+        outputCount= 1;
         fileName = "data.txt";
         neuralNetwork = new Perceptron(inputCount,outputCount); //Input: paddle, ball x, ball y, (poeng?)
         learningRule = (PerceptronLearning) neuralNetwork.getLearningRule();
@@ -42,11 +42,15 @@ public class NN implements Normalizer{
      */
     public void trainNN(){
         System.out.println("Learning");
-        neuralNetwork.learn(trainingSet);
-        System.out.println(trainingSet);
+        System.out.print(trainingSet);
+        
+//        System.out.println("EMUALTE TRAINING");
+        neuralNetwork.learn(trainingSet);        
+        System.out.println("Successfully learned data.");
     }
     
     public void trainingSet() {
+        System.out.println("Loading training data from: " + fileName);
         try{
             trainingSet = TrainingSetImport.importFromFile(fileName, inputCount, outputCount, ",");
         }
@@ -54,6 +58,7 @@ public class NN implements Normalizer{
             System.out.print("Error: ");
             System.out.println(e);
         }
+        System.out.println("Successfully loaded data.");
     }
     
     /**

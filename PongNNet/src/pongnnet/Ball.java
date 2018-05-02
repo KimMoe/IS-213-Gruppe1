@@ -7,6 +7,7 @@ package pongnnet;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -35,7 +36,7 @@ public class Ball {
     }
     
     public void update(Paddle paddle1, Paddle paddle2) {
-        int speed = 4;
+        int speed = 1;
         
         this.x += motionx * speed;
         this.y += motiony * speed;
@@ -77,33 +78,43 @@ public class Ball {
             paddle2.score++;         
         }
         
-        if (checkCollision(paddle1) == 2) {
-            //Add more points for scoring or? <--------------------
-            //paddle1.score++;
-            //saveFileTest(paddle1.y,pong.ball.y,paddle1.score);
+        if (checkCollision(paddle1) == 1 || checkCollision(paddle1) == 2) {
+            //See where the ball is in difference to the paddle.
             checkOutput(paddle1);
-            saveFile(paddle1.y, pong.ball.y, pong.ball.x, paddle1.score, output);
-            pong.nn.trainingSet();
-            pong.nn.trainNN();
-            pong.nn.setGeneration(pong.nn.getGeneration()+1);
             
-            paddle1.score = 0;
-            paddle2.score = 0;
+            //Save data to data.txt file
+            saveFile(paddle1.y, y, x, paddle1.score, output); 
             
-            spawn();
+            //Starting the different NN processes.
+            startNN(); 
+               
+            
+            if (checkCollision(paddle1) == 2) {
+                //Resets the score to 0.
+                resetScore(paddle1, paddle2);
+
+                //Respawns/Spawns the ball.
+                spawn();
+            }             
         }
-        
-        else if (checkCollision(paddle2) == 2) {
-            //Add more points for scoring or? <--------------------
-            //paddle2.score++;
-            
-            //Reset the score when the ball is lost. Maybe change a little. <------------------------
-            paddle2.score = 0;
-            paddle1.score = 0;
-            
+        if (checkCollision(paddle2) == 2) {
+            resetScore(paddle1, paddle2);
+
             spawn();
-        }   
+        } 
+    }
+    
+    public void resetScore(Paddle paddle1, Paddle paddle2) {
+        paddle1.score = 0;
+        paddle2.score = 0;
+    }
+    
+    public void startNN() {
+        pong.nn.trainingSet();
         
+        pong.nn.trainNN();
+        
+        pong.nn.setGeneration(pong.nn.getGeneration()+1);
     }
     
     //Do neural network stuff when it spawns. 
@@ -137,8 +148,9 @@ public class Ball {
             //Loses ball behind paddle.
             return 2; 
         }
+        
         //Nothing
-        return 0;    
+        return 0;
     }
     
     public void render(Graphics g) {
@@ -147,26 +159,27 @@ public class Ball {
     }
     
     private void checkOutput(Paddle paddle){
-        if((paddle.y-75) > y){ //ball lower than paddle
+        if((paddle.y+150) < y){ //ball lower than paddle
             output = 0;
         }
-        if((paddle.y+75) < y){//ball higher than paddle
+        if((paddle.y) > y){//ball higher than paddle
             output = 1;
         }
-        if((paddle.y-75) < y && (paddle.y+75) > y){//ball hits the paddle
+        if(checkCollision(paddle) == 1){//ball hits the paddle
             output = 2;
         }
     }
     
     public void saveFile(int paddle, int ballx, int bally, int score, int output) {
-        if (ballx<0){
-            ballx=0;
+        if (ballx < 0){
+            ballx = 0;
         }
-        if (bally<0){
-            bally=0;
+        if (bally < 0){
+            bally = 0;
         }
-        try (FileWriter writer = new FileWriter("data.txt")) {
-            writer.write(""); //Deletes content of file. Just to be sure.
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt", false))) {                       
+            writer.write("");
             writer.write(paddle + "," + ballx + "," + bally + "," + score + "," + output); //Writes content to file.
         } catch (IOException e) {
             System.out.println(e);
