@@ -26,6 +26,8 @@ public class Ball {
     
     private PongNNet pong;
     
+    private int output;
+    
     public Ball(PongNNet pong) {      
         this.random = new Random();
         this.pong = pong;  
@@ -33,7 +35,7 @@ public class Ball {
     }
     
     public void update(Paddle paddle1, Paddle paddle2) {
-        int speed = 1;
+        int speed = 4;
         
         this.x += motionx * speed;
         this.y += motiony * speed;
@@ -79,7 +81,11 @@ public class Ball {
             //Add more points for scoring or? <--------------------
             //paddle1.score++;
             //saveFileTest(paddle1.y,pong.ball.y,paddle1.score);
-            saveFile(paddle1.y, pong.ball.y, paddle1.score);
+            checkOutput(paddle1);
+            saveFile(paddle1.y, pong.ball.y, pong.ball.x, paddle1.score, output);
+            pong.nn.trainingSet();
+            pong.nn.trainNN();
+            pong.nn.setGeneration(pong.nn.getGeneration()+1);
             
             paddle1.score = 0;
             paddle2.score = 0;
@@ -140,10 +146,28 @@ public class Ball {
         g.fillOval(x, y, width, height);
     }
     
-    public void saveFile(int paddle, int ball, int score) {
+    private void checkOutput(Paddle paddle){
+        if((paddle.y-75) > y){ //ball lower than paddle
+            output = 0;
+        }
+        if((paddle.y+75) < y){//ball higher than paddle
+            output = 1;
+        }
+        if((paddle.y-75) < y && (paddle.y+75) > y){//ball hits the paddle
+            output = 2;
+        }
+    }
+    
+    public void saveFile(int paddle, int ballx, int bally, int score, int output) {
+        if (ballx<0){
+            ballx=0;
+        }
+        if (bally<0){
+            bally=0;
+        }
         try (FileWriter writer = new FileWriter("data.txt")) {
             writer.write(""); //Deletes content of file. Just to be sure.
-            writer.write(paddle + "," + ball + "," + score); //Writes content to file.
+            writer.write(paddle + "," + ballx + "," + bally + "," + score + "," + output); //Writes content to file.
         } catch (IOException e) {
             System.out.println(e);
         }

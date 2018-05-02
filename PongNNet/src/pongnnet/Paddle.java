@@ -46,7 +46,7 @@ public class Paddle {
     }
 
     public void move(boolean up) {
-        int speed = 5;
+        int speed = 10;
         
         if(up) {
             if (y - speed > 0) {

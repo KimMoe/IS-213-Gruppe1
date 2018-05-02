@@ -50,6 +50,7 @@ public class PongNNet implements ActionListener, KeyListener {
     
     public Random random;
 
+    public NN nn;
     public int botDifficulty;
     
     public static void main(String[] args) {
@@ -57,7 +58,7 @@ public class PongNNet implements ActionListener, KeyListener {
     }
     
     public PongNNet() {
-        //NN nn = new NN();
+        nn = new NN();
         
         //How often the game is updated. Basiclly fps.
         Timer timer = new Timer(2, this);
@@ -138,10 +139,10 @@ public class PongNNet implements ActionListener, KeyListener {
             //Paddle 1
             if (!isNN) { //Develop test for Neural network. <------------------
                 g.setColor(Color.blue);
-                g.drawString("HUMAN", pad1String.width, pad1String.height);
+                g.drawString("HUMAN Generation " + nn.getGeneration(), pad1String.width, pad1String.height);
             } else {
                 g.setColor(Color.blue);
-                g.drawString("NN", pad1String.width, pad1String.height);
+                g.drawString("NN Generation " + nn.getGeneration(), pad1String.width, pad1String.height);
             }
             //Paddle 2
             if (bot) {   
