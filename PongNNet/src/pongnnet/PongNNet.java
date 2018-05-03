@@ -6,6 +6,7 @@
 package pongnnet;
 
 import NeuralNetwork.NN;
+import graphics.NnView;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +19,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -28,35 +30,37 @@ public class PongNNet implements ActionListener, KeyListener {
     
     public static PongNNet pong;
     
-    public int width = 700;
-    public int height = 700;
-    
-    Dimension pad1String = new Dimension(10, 690);
+    int width = 700;
+    int height = 700;
     int pad2String = width/2+230;
     
-    public Rendering renderer;
+    Dimension pad1String = new Dimension(10, 690);
+    
+      
     public Ball ball;   
     public Paddle player1;
     public Paddle player2;
     
-    public boolean bot = false, disableBot = false;       
+    boolean bot = false, disableBot = false;       
     public boolean isNN = true; //IMPLEMENT <---------------   
     public boolean w, s, up, down;
     
+    JFrame frame;
     
     public int gameStatus = 0; //0 = Stopped, 1 = Paused, 2 = Playing
     
     public Random random;
 
+    Rendering renderer;
     public NN nn;
-    public int botDifficulty;
+    NnView view;   
     
     /**
      * 
      * @param args 
      */
     public static void main(String[] args) {
-        pong = new PongNNet();
+        pong = new PongNNet();    
     }
     
     /**
@@ -64,12 +68,12 @@ public class PongNNet implements ActionListener, KeyListener {
      */
     public PongNNet() {
         nn = new NN(this);
-        
+                
         //How often the game is updated. Basiclly fps.
         Timer timer = new Timer(2, this);
-        JFrame frame = new JFrame("Pong");
-        random = new Random();
+        frame = new JFrame("Pong");
         
+        random = new Random();        
         renderer = new Rendering();
         
         frame.setSize(width + 16, height + 39);
@@ -86,6 +90,9 @@ public class PongNNet implements ActionListener, KeyListener {
      */
     public void start(){
         gameStatus = 1;
+        if (isNN) {
+            view = new NnView();
+        }
         player1 = new Paddle(this, 1);
         player2 = new Paddle(this, 2);
         ball = new Ball(this);
@@ -124,7 +131,7 @@ public class PongNNet implements ActionListener, KeyListener {
      * 
      * @param g 
      */
-    public void render(Graphics2D g) {
+    public void render(Graphics2D g) {        
         g.setColor(Color.white);
         g.fillRect(0, 0, width, height);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);      
@@ -136,7 +143,8 @@ public class PongNNet implements ActionListener, KeyListener {
             
             g.setFont(new Font("Arial", 1, 20));           
             g.drawString("(SPACE) - Play", width / 2 -139, height / 2 - 25);
-            g.drawString("(SHIFT) - Disable BOT", width / 2 -139, height / 2 + 25);           
+            g.drawString("(SHIFT) - Disable BOT", width / 2 -139, height / 2 + 25);
+            g.drawString("(CTRL) - Disable Neural Network", width / 2 -139, height / 2 + 75);
         }
         
         if (gameStatus == 1) {
@@ -154,7 +162,7 @@ public class PongNNet implements ActionListener, KeyListener {
             //Paddle 1
             if (!isNN) { //Develop getCalculatedOutput for Neural network. <------------------
                 g.setColor(Color.blue);
-                g.drawString("HUMAN Generation " + nn.getGeneration(), pad1String.width, pad1String.height);
+                g.drawString("HUMAN Generation ", pad1String.width, pad1String.height);
             } else {
                 g.setColor(Color.blue);
                 g.drawString("NN Generation " + nn.getGeneration(), pad1String.width, pad1String.height);
@@ -237,6 +245,10 @@ public class PongNNet implements ActionListener, KeyListener {
             
             case(KeyEvent.VK_SHIFT): if (gameStatus == 0) {  
                 bot = false; disableBot = true; 
+            } break;
+            
+            case(KeyEvent.VK_CONTROL): if (gameStatus == 0) {
+                isNN = false;
             } break;
             
             case(KeyEvent.VK_SPACE): if (gameStatus == 0) { 

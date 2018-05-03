@@ -16,16 +16,13 @@ import java.util.Random;
 public class Ball {
       
     public int x, y, width = 25, height = 25;
-    public int motionx, motiony;
-    public int amoutofHits;
+    private int motionx, motiony;
     
-    public double desiredOut;
-    public double ballY;
-    public double paddleY;
+    public static double desiredOut;
+    public static double ballY;
+    public static double paddleY;    
     
-//    private double output;
-    
-    public Random random;
+    private Random random;
     private PongNNet pong;
     
     /**
@@ -91,17 +88,18 @@ public class Ball {
             desiredOut = desiredOutput(paddle1);              
             paddleY = getNNy(paddle1.y);
             ballY = getNNballY(y);
-            
+
             //saveFile(paddle1.y, y, paddle1.score, output); 
-            
+
             //Starting the different NN processes.
             startNN(); 
         }
-        
+
         if (checkCollision(paddle1) == 2 || checkCollision(paddle2) == 2) {
             resetScore(paddle1, paddle2);
             spawn();
         }
+        
     }
     
     /**
@@ -120,9 +118,7 @@ public class Ball {
     public void startNN() {
         pong.nn.trainingSet();
         
-        pong.nn.trainNN();
-        
-        pong.nn.setGeneration(pong.nn.getGeneration()+1);
+        pong.nn.trainNN();       
     }
     
     /**
@@ -165,8 +161,7 @@ public class Ball {
         }
         //Nothing
         return 0;
-    }
-    
+    }   
     
     /**
      * 
@@ -197,7 +192,6 @@ public class Ball {
 //        } else {
 //            output = 0;
 //        }
-        Paddle paddle1;
         
         if (y < paddle.y + paddle.height && y + height > paddle.y) {
             return 1;
