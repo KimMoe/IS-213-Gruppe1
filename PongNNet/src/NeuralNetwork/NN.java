@@ -29,84 +29,106 @@ public class NN{
     private final int inputCount;
     private final int outputCount;
     private final int hiddenLayers;
-    private final String fileName;   
+    
+//    private final String fileName;   
+    
     private int generation;
+    
     private PongNNet pong;
 
+    /**
+     * 
+     * @param pong 
+     */
     public NN(PongNNet pong){
-        inputCount = 3; //Position pad, ball (x,y) score
-        outputCount = 1;
-        hiddenLayers = 20;
-        fileName = "data.txt";
+//        fileName = "data.txt";
+
+        //Variables
+        inputCount = 2; //Input: Pos y ball, Pos y paddle
+        outputCount = 1; //Desired output: 
+        hiddenLayers = 10; //Hiden layers
+        generation = 0; //Generation
+               
+        //Learning type
         neuralNetwork = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, inputCount, hiddenLayers, outputCount);
         learningRule = (MomentumBackpropagation) neuralNetwork.getLearningRule();
-        learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte    
-        learningRule.setMomentum(0.8);
-        generation = 0;
+        
+        //Learning Rules/Constraints
+        learningRule.setLearningRate(0.5); 
+        learningRule.setMomentum(0.7);
+        learningRule.setMaxError(0.01);
+        
         this.pong = pong;
     }
     
     /**
-     * Mulig løsning; skrive data fra et spill til en fil, NN lærer datasettet før neste spill
+     * 
      */
     public void trainNN(){
-        System.out.println("Learning");
-        System.out.print(trainingSet);
+        System.out.print("Learning from DataSet...   ");
         
-//        System.out.println("EMUALTE TRAINING");
-        neuralNetwork.learn(trainingSet);        
-        System.out.println("Successfully learned data.");
+        neuralNetwork.learn(trainingSet); 
         
-        test();
+        System.out.println(" Successfully learned data.");
+        
+        getCalculatedOutput();
     }
     
+    /**
+     * 
+     */
     public void trainingSet() {
-        System.out.println("Loading training data from: " + fileName);
-        try{
-            trainingSet = TrainingSetImport.importFromFile(fileName, inputCount, outputCount, ",");
-        }
-        catch (IOException | NumberFormatException e) {
-            System.out.print("Error: ");
-            System.out.println(e);
-        }
-        System.out.println("Successfully loaded data.");
+//      trainingSet = TrainingSetImport.importFromFile(fileName, inputCount, outputCount, ",");   
+        
+        System.out.print("Loading DataSet...    ");
+        trainingSet = new DataSet(2, 1);
+        trainingSet.addRow(new DataSetRow(new double[]{pong.ball.ballY, pong.ball.paddleY}, new double[]{pong.ball.desiredOut}));
+        System.out.println(" Successfully loaded data.");
     }
 
+    /**
+     * 
+     * @return 
+     */
     public int getGeneration() {
         return generation;
     }
 
+    /**
+     * 
+     * @param generation 
+     */
     public void setGeneration(int generation) {
         this.generation = generation;
     }
-
-    public void test() {
+    
+    /**
+     * 
+     */
+    public void getCalculatedOutput() {
         for(DataSetRow dataRow : trainingSet.getRows()) {
             neuralNetwork.setInput(dataRow.getInput());
             neuralNetwork.calculate();
-            double[ ] networkOutput = neuralNetwork.getOutput();
-            System.out.println("Input: " + Arrays.toString(dataRow.getInput()) );
-            System.out.println(" Output: " + Arrays.toString(networkOutput) );
+            double[] networkOutput = neuralNetwork.getOutput();
+            System.out.println("Input: " + Arrays.toString(dataRow.getInput()));
+            System.out.println("Output: " + Arrays.toString(networkOutput));
             playPong();
         }
     }
        
     /**
      *
-     * @return 
+     * 
      */
     public void playPong(){
         double[] output = neuralNetwork.getOutput();
         double o = output[0];
-        if (o<0.9){
+        if (o < 0.9){
             pong.nnRelease('s');
-        pong.nnTypes('w');
-        }
-        else{
+            pong.nnTypes('w');
+        } else{
             pong.nnRelease('w');
             pong.nnTypes('s');
-        }
-        
-    }
-    
+        }        
+    }   
 }

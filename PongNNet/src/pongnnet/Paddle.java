@@ -20,6 +20,11 @@ public class Paddle {
     
     public int score;
     
+    /**
+     * 
+     * @param pong
+     * @param paddlenumb 
+     */
     public Paddle(PongNNet pong, int paddlenumb)   {
         
         this.paddlenumb = paddlenumb;
@@ -34,6 +39,10 @@ public class Paddle {
         this.y = pong.height / 2 - this.height / 2;  
     }
 
+    /**
+     * 
+     * @param g 
+     */
     public void render(Graphics g) {
         if (paddlenumb == 1) {
             g.setColor(Color.blue);
@@ -45,6 +54,10 @@ public class Paddle {
         g.fillRect(x, y, width, height);
     }
 
+    /**
+     * 
+     * @param up 
+     */
     public void move(boolean up) {
         int speed = 4;
         

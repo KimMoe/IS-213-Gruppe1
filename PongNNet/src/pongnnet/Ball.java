@@ -7,11 +7,7 @@ package pongnnet;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Random;
-import javax.swing.Timer;
 
 /**
  *
@@ -23,19 +19,32 @@ public class Ball {
     public int motionx, motiony;
     public int amoutofHits;
     
-    private double output;
+    public double desiredOut;
+    public double ballY;
+    public double paddleY;
+    
+//    private double output;
     
     public Random random;
     private PongNNet pong;
     
+    /**
+     * 
+     * @param pong 
+     */
     public Ball(PongNNet pong) {  
         this.random = new Random();
         this.pong = pong;  
         spawn();
     }
     
+    /**
+     * 
+     * @param paddle1
+     * @param paddle2 
+     */
     public void update(Paddle paddle1, Paddle paddle2) {
-        int speed = 1;
+        double speed = 1;
         
         this.x += motionx * speed;
         this.y += motiony * speed;
@@ -77,39 +86,37 @@ public class Ball {
             paddle2.score++;         
         }
         
-        boolean isTrue = true;
-        
-        if (isTrue) {
-            //See where the ball is in difference to the paddle.
-            desiredOutput(paddle1);
+        if (pong.isNN) {
+            //Data output
+            desiredOut = desiredOutput(paddle1);              
+            paddleY = getNNy(paddle1.y);
+            ballY = getNNballY(y);
             
-            //Save data to data.txt file
-            saveFile(paddle1.y, y, x, paddle1.score, output); 
+            //saveFile(paddle1.y, y, paddle1.score, output); 
             
             //Starting the different NN processes.
             startNN(); 
         }
         
-        if (checkCollision(paddle1) == 2) {
-            //Resets the score to 0.
+        if (checkCollision(paddle1) == 2 || checkCollision(paddle2) == 2) {
             resetScore(paddle1, paddle2);
-
-            //Respawns/Spawns the ball.
             spawn();
         }
-        
-        if (checkCollision(paddle2) == 2) {
-            resetScore(paddle1, paddle2);
-
-            spawn();
-        } 
     }
     
+    /**
+     * 
+     * @param paddle1
+     * @param paddle2 
+     */
     public void resetScore(Paddle paddle1, Paddle paddle2) {
         paddle1.score = 0;
         paddle2.score = 0;
     }
     
+    /**
+     * 
+     */
     public void startNN() {
         pong.nn.trainingSet();
         
@@ -118,7 +125,9 @@ public class Ball {
         pong.nn.setGeneration(pong.nn.getGeneration()+1);
     }
     
-    //Do neural network stuff when it spawns. 
+    /**
+     * Do neural network stuff when it spawns. 
+     */
     public void spawn() {
         this.x = pong.width / 2 - this.width /2;
         this.y = pong.height / 2 - this.height /2;
@@ -137,6 +146,11 @@ public class Ball {
         } 
     }
     
+    /**
+     * 
+     * @param paddle
+     * @return 
+     */
     public int checkCollision(Paddle paddle) {
         //BUGGED. When the ball hits the top or bottom of the paddle, the score shots up. Because it's techinally behind it. <-----------------------
         //It would be interesting if the NN learn to abuse this bug...
@@ -149,48 +163,68 @@ public class Ball {
             //Loses ball behind paddle.
             return 2; 
         }
-        
-        if ((paddle.x < x - width && paddle.paddlenumb == 2)) {
-            return 3;
-        }
         //Nothing
         return 0;
     }
     
-    public void desiredOutput(Paddle paddle) {
+    
+    /**
+     * 
+     * @param paddleY
+     * @return 
+     */
+    public double getNNy(double paddleY) {
+        return paddleY;
+    }
+    
+    /**
+     * 
+     * @param ballY
+     * @return 
+     */
+    public double getNNballY(double ballY) {
+        return ballY;
+    }
+    
+    /**
+     * 
+     * @param paddle
+     * @return 
+     */
+    public int desiredOutput(Paddle paddle) {
+//        if (y < paddle.y + paddle.height && y + height > paddle.y) {
+//            output = 1;
+//        } else {
+//            output = 0;
+//        }
+        Paddle paddle1;
+        
         if (y < paddle.y + paddle.height && y + height > paddle.y) {
-            output = 1;
-        } else {
-            output = 0;
+            return 1;
+        }
+        else {
+            return 0;
         }
     }
     
+    
+    /**
+     * 
+     * @param g 
+     */
     public void render(Graphics g) {
         g.setColor(Color.black);
         g.fillOval(x, y, width, height);
     }
     
-    public void saveFile(int paddle, int ballx, int bally, int score, double output) {
-        if (ballx < 0){
-            ballx = 0;
-        }
-        if (bally < 0){
-            bally = 0;
-        }
-        
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt", false))) {                       
-            writer.write("");
-            writer.write(paddle + "," + ballx + "," + bally + "," + output); //Writes content to file.
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
-//For getting min max data.
-    
-//    public void saveFileTest(int paddle, int ball, int score) {           
-//        try (FileWriter writer = new FileWriter("minMax.txt", true)) {
-//            writer.write(ball + ","+ score + ";\n");
+//    public void saveFile(int paddle, int bally, double output) {
+//        if (bally < 0){
+//            bally = 0;
+//        }
+//        
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt", false))) {                       
+//            writer.write("");
+//            writer.write(paddle + "," + bally + "," + output); //Writes content to file.
 //        } catch (IOException e) {
 //            System.out.println(e);
 //        }

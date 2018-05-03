@@ -14,12 +14,17 @@ import java.awt.*;
  */
 public class Rendering extends JPanel {
     
+    /**
+     * 
+     */
     public Rendering() {
     
     };
     
-    public static final long serialVersionUID = 1L; 
-    
+    /**
+     * 
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g){        
         

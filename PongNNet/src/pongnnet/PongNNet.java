@@ -51,10 +51,17 @@ public class PongNNet implements ActionListener, KeyListener {
     public NN nn;
     public int botDifficulty;
     
+    /**
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {
         pong = new PongNNet();
     }
     
+    /**
+     * 
+     */
     public PongNNet() {
         nn = new NN(this);
         
@@ -74,6 +81,9 @@ public class PongNNet implements ActionListener, KeyListener {
         timer.start();
     }
     
+    /**
+     * 
+     */
     public void start(){
         gameStatus = 1;
         player1 = new Paddle(this, 1);
@@ -81,6 +91,9 @@ public class PongNNet implements ActionListener, KeyListener {
         ball = new Ball(this);
     }
     
+    /**
+     * 
+     */
     public void update() {
         if(w) {
             player1.move(true);
@@ -107,6 +120,10 @@ public class PongNNet implements ActionListener, KeyListener {
         ball.update(player1, player2);
     }
     
+    /**
+     * 
+     * @param g 
+     */
     public void render(Graphics2D g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, width, height);
@@ -135,7 +152,7 @@ public class PongNNet implements ActionListener, KeyListener {
             g.drawString(String.valueOf(player2.score), width / 2 +39, 50);
             
             //Paddle 1
-            if (!isNN) { //Develop test for Neural network. <------------------
+            if (!isNN) { //Develop getCalculatedOutput for Neural network. <------------------
                 g.setColor(Color.blue);
                 g.drawString("HUMAN Generation " + nn.getGeneration(), pad1String.width, pad1String.height);
             } else {
@@ -158,6 +175,10 @@ public class PongNNet implements ActionListener, KeyListener {
         }
     }    
         
+    /**
+     * 
+     * @param key 
+     */
     public void nnTypes(char key){
         switch (key){
             case('w'): w = true; break;
@@ -165,6 +186,10 @@ public class PongNNet implements ActionListener, KeyListener {
         }
     }
     
+    /**
+     * 
+     * @param key 
+     */
     public void nnRelease(char key){
         switch (key){
             case('w'): w = false; break;
@@ -172,6 +197,10 @@ public class PongNNet implements ActionListener, KeyListener {
         }
     }
     
+    /**
+     * 
+     * @param e 
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (gameStatus == 1)  {
@@ -180,10 +209,18 @@ public class PongNNet implements ActionListener, KeyListener {
         renderer.repaint();   
     }
     
+    /**
+     * 
+     * @param e 
+     */
     @Override
     public void keyTyped(KeyEvent e) {  
     }
     
+    /**
+     * 
+     * @param e 
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int id = e.getKeyCode();
@@ -211,6 +248,10 @@ public class PongNNet implements ActionListener, KeyListener {
         }
     }
     
+    /**
+     * 
+     * @param e 
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int id = e.getKeyCode();
