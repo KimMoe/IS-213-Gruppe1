@@ -7,8 +7,10 @@
 package NeuralNetwork;
 
 import java.io.IOException;
+import java.util.Arrays;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.util.TrainingSetImport;
@@ -47,6 +49,8 @@ public class NN implements Normalizer{
 //        System.out.println("EMUALTE TRAINING");
         neuralNetwork.learn(trainingSet);        
         System.out.println("Successfully learned data.");
+        
+        test();
     }
     
     public void trainingSet() {
@@ -63,11 +67,11 @@ public class NN implements Normalizer{
     
     /**
      * 0 = ball is lower than paddle
-     * 1 = ball is higher than paddle
-     * 2 = ball hits the paddle
+     * 0.5 = ball is higher than paddle
+     * 1 = ball hits the paddle
      * @return 
      */
-    public int playPong(){
+    public double playPong(){
         return 0;
     }
 
@@ -83,6 +87,15 @@ public class NN implements Normalizer{
     public void setGeneration(int generation) {
         this.generation = generation;
     }
-    
+
+    public void test() {
+        for(DataSetRow dataRow : trainingSet.getRows()) {
+            neuralNetwork.setInput(dataRow.getInput());
+            neuralNetwork.calculate();
+            double[ ] networkOutput = neuralNetwork.getOutput();
+            System.out.println("Input: " + Arrays.toString(dataRow.getInput()) );
+            System.out.println(" Output: " + Arrays.toString(networkOutput) );
+        }     
+    }
     
 }
