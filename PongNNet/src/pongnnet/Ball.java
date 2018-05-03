@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import javax.swing.Timer;
 
 /**
  *
@@ -20,16 +21,14 @@ public class Ball {
       
     public int x, y, width = 25, height = 25;
     public int motionx, motiony;
-
     public int amoutofHits;
     
-    public Random random;
+    private double output;
     
+    public Random random;
     private PongNNet pong;
     
-    private int output;
-    
-    public Ball(PongNNet pong) {      
+    public Ball(PongNNet pong) {  
         this.random = new Random();
         this.pong = pong;  
         spawn();
@@ -78,25 +77,27 @@ public class Ball {
             paddle2.score++;         
         }
         
-        if (checkCollision(paddle1) == 1 || checkCollision(paddle1) == 2) {
+        boolean isTrue = true;
+        
+        if (isTrue) {
             //See where the ball is in difference to the paddle.
-            checkOutput(paddle1);
+            desiredOutput(paddle1);
             
             //Save data to data.txt file
             saveFile(paddle1.y, y, x, paddle1.score, output); 
             
             //Starting the different NN processes.
             startNN(); 
-               
-            
-            if (checkCollision(paddle1) == 2) {
-                //Resets the score to 0.
-                resetScore(paddle1, paddle2);
-
-                //Respawns/Spawns the ball.
-                spawn();
-            }             
         }
+        
+        if (checkCollision(paddle1) == 2) {
+            //Resets the score to 0.
+            resetScore(paddle1, paddle2);
+
+            //Respawns/Spawns the ball.
+            spawn();
+        }
+        
         if (checkCollision(paddle2) == 2) {
             resetScore(paddle1, paddle2);
 
@@ -149,8 +150,19 @@ public class Ball {
             return 2; 
         }
         
+        if ((paddle.x < x - width && paddle.paddlenumb == 2)) {
+            return 3;
+        }
         //Nothing
         return 0;
+    }
+    
+    public void desiredOutput(Paddle paddle) {
+        if (y < paddle.y + paddle.height && y + height > paddle.y) {
+            output = 1;
+        } else {
+            output = 0;
+        }
     }
     
     public void render(Graphics g) {
@@ -158,19 +170,7 @@ public class Ball {
         g.fillOval(x, y, width, height);
     }
     
-    private void checkOutput(Paddle paddle){
-        if((paddle.y+150) < y){ //ball lower than paddle
-            output = 0;
-        }
-        if((paddle.y) > y){//ball higher than paddle
-            output = 1;
-        }
-        if(checkCollision(paddle) == 1){//ball hits the paddle
-            output = 2;
-        }
-    }
-    
-    public void saveFile(int paddle, int ballx, int bally, int score, int output) {
+    public void saveFile(int paddle, int ballx, int bally, int score, double output) {
         if (ballx < 0){
             ballx = 0;
         }
@@ -180,7 +180,7 @@ public class Ball {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt", false))) {                       
             writer.write("");
-            writer.write(paddle + "," + ballx + "," + bally + "," + score + "," + output); //Writes content to file.
+            writer.write(paddle + "," + ballx + "," + bally + "," + output); //Writes content to file.
         } catch (IOException e) {
             System.out.println(e);
         }

@@ -11,9 +11,12 @@ import java.util.Arrays;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
+import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Perceptron;
+import org.neuroph.nnet.learning.MomentumBackpropagation;
 import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.util.TrainingSetImport;
+import org.neuroph.util.TransferFunctionType;
 import org.neuroph.util.data.norm.Normalizer;
 
 /**
@@ -22,23 +25,27 @@ import org.neuroph.util.data.norm.Normalizer;
  */
 public class NN implements Normalizer{   
     private NeuralNetwork neuralNetwork;
-    private PerceptronLearning learningRule;
+    private MomentumBackpropagation learningRule;
     private DataSet trainingSet;
+    
     private final int inputCount;
     private final int outputCount;
-    private final String fileName;
+    private final int hiddenLayers;
+    private final String fileName;   
     private int generation;
 
     public NN(){
-        inputCount = 4; //Position pad, ball (x,y) score
-        outputCount= 1;
+        inputCount = 3; //Position pad, ball (x,y) score
+        outputCount = 1;
+        hiddenLayers = 20;
         fileName = "data.txt";
-        neuralNetwork = new Perceptron(inputCount,outputCount); //Input: paddle, ball x, ball y, (poeng?)
-        learningRule = (PerceptronLearning) neuralNetwork.getLearningRule();
-        learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte     
+        neuralNetwork = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, inputCount, hiddenLayers, outputCount);
+        learningRule = (MomentumBackpropagation) neuralNetwork.getLearningRule();
+        learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte    
+        learningRule.setMomentum(0.8);
         generation = 0;
     }
- 
+    
     /**
      * Mulig løsning; skrive data fra et spill til en fil, NN lærer datasettet før neste spill
      */
@@ -95,7 +102,7 @@ public class NN implements Normalizer{
             double[ ] networkOutput = neuralNetwork.getOutput();
             System.out.println("Input: " + Arrays.toString(dataRow.getInput()) );
             System.out.println(" Output: " + Arrays.toString(networkOutput) );
-        }     
+        }
     }
     
 }
