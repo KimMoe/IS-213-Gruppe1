@@ -12,18 +12,16 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.learning.MomentumBackpropagation;
-import org.neuroph.nnet.learning.PerceptronLearning;
 import org.neuroph.util.TrainingSetImport;
 import org.neuroph.util.TransferFunctionType;
-import org.neuroph.util.data.norm.Normalizer;
+import pongnnet.PongNNet;
 
 /**
  *
  * @author vegar
  */
-public class NN implements Normalizer{   
+public class NN{   
     private NeuralNetwork neuralNetwork;
     private MomentumBackpropagation learningRule;
     private DataSet trainingSet;
@@ -33,8 +31,9 @@ public class NN implements Normalizer{
     private final int hiddenLayers;
     private final String fileName;   
     private int generation;
+    private PongNNet pong;
 
-    public NN(){
+    public NN(PongNNet pong){
         inputCount = 3; //Position pad, ball (x,y) score
         outputCount = 1;
         hiddenLayers = 20;
@@ -44,6 +43,7 @@ public class NN implements Normalizer{
         learningRule.setLearningRate(0.5); //vet ikke om disse verdiene er korrekte    
         learningRule.setMomentum(0.8);
         generation = 0;
+        this.pong = pong;
     }
     
     /**
@@ -71,21 +71,6 @@ public class NN implements Normalizer{
         }
         System.out.println("Successfully loaded data.");
     }
-    
-    /**
-     * 0 = ball is lower than paddle
-     * 0.5 = ball is higher than paddle
-     * 1 = ball hits the paddle
-     * @return 
-     */
-    public double playPong(){
-        return 0;
-    }
-
-    @Override
-    public void normalize(DataSet dataSet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public int getGeneration() {
         return generation;
@@ -102,7 +87,26 @@ public class NN implements Normalizer{
             double[ ] networkOutput = neuralNetwork.getOutput();
             System.out.println("Input: " + Arrays.toString(dataRow.getInput()) );
             System.out.println(" Output: " + Arrays.toString(networkOutput) );
+            playPong();
         }
+    }
+       
+    /**
+     *
+     * @return 
+     */
+    public void playPong(){
+        double[] output = neuralNetwork.getOutput();
+        double o = output[0];
+        if (o<0.9){
+            pong.nnRelease('s');
+        pong.nnTypes('w');
+        }
+        else{
+            pong.nnRelease('w');
+            pong.nnTypes('s');
+        }
+        
     }
     
 }

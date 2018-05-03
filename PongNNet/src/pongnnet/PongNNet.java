@@ -56,7 +56,7 @@ public class PongNNet implements ActionListener, KeyListener {
     }
     
     public PongNNet() {
-        nn = new NN();
+        nn = new NN(this);
         
         //How often the game is updated. Basiclly fps.
         Timer timer = new Timer(2, this);
@@ -156,8 +156,21 @@ public class PongNNet implements ActionListener, KeyListener {
             player2.render(g);
             ball.render(g);
         }
+    }    
+        
+    public void nnTypes(char key){
+        switch (key){
+            case('w'): w = true; break;
+            case('s'): s = true; break;
+        }
     }
-
+    
+    public void nnRelease(char key){
+        switch (key){
+            case('w'): w = false; break;
+            case('s'): s = false; break;
+        }
+    }
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -208,5 +221,5 @@ public class PongNNet implements ActionListener, KeyListener {
             case(KeyEvent.VK_UP): up = false; break;
             case(KeyEvent.VK_DOWN): down = false; break;
         }
-    }    
+    }
 }
