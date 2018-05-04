@@ -120,6 +120,12 @@ public class NN{
      * 
      */
     public void getCalculatedOutput() {
+        //TO DO: GET HIDDEN LAYER VALUES
+//        System.out.println(neuralNetwork.getLayers());
+//        System.out.println(neuralNetwork.getLayerAt(1));
+//        System.out.println(Arrays.toString(neuralNetwork.getWeights()));
+                    
+            
         for(DataSetRow dataRow : trainingSet.getRows()) {
             neuralNetwork.setInput(dataRow.getInput());
             neuralNetwork.calculate();
@@ -145,4 +151,10 @@ public class NN{
             pong.nnTypes('s');
         }        
     }   
+    
+    public void saveNN() { //04.05.2018 Added
+        System.out.println("Saving: ");
+        neuralNetwork.save("neuralNetwork" + generation + ".nnet");
+        System.out.println("Saved: neuralNetwork" + generation + ".nnet");
+    }
 }

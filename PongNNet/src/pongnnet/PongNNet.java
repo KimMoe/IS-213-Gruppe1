@@ -19,8 +19,9 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
+import java.awt.event.WindowEvent;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,18 +43,18 @@ public class PongNNet implements ActionListener, KeyListener {
     public Paddle player2;
     
     boolean bot = false, disableBot = false;       
-    public boolean isNN = true; //IMPLEMENT <---------------   
+    public boolean isNN = true; 
     public boolean w, s, up, down;
     
     JFrame frame;
     
-    public int gameStatus = 0; //0 = Stopped, 1 = Paused, 2 = Playing
+    public int gameStatus = 0; //0 = Start Menu Screen, 1 = Playing
     
     public Random random;
 
     Rendering renderer;
     public NN nn;
-    NnView view;   
+    NnView view;   //03.05.2018 Added
     
     /**
      * 
@@ -79,7 +80,19 @@ public class PongNNet implements ActionListener, KeyListener {
         frame.setSize(width + 16, height + 39);
         frame.setVisible(true);
         frame.add(renderer);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //04.05.2018 CHANGED
+        frame.addWindowListener(new java.awt.event.WindowAdapter() { 
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(frame, 
+                    "Are you sure you want to exit and save the neural network?", "Are you sure?", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    nn.saveNN();
+                    System.exit(0);
+                }   
+            }
+        }); //CHANGED END
         frame.addKeyListener(this);
         
         timer.start();
@@ -91,7 +104,7 @@ public class PongNNet implements ActionListener, KeyListener {
     public void start(){
         gameStatus = 1;
         if (isNN) {
-            view = new NnView();
+            view = new NnView(); //03.05.2018 Added
         }
         player1 = new Paddle(this, 1);
         player2 = new Paddle(this, 2);
@@ -144,7 +157,7 @@ public class PongNNet implements ActionListener, KeyListener {
             g.setFont(new Font("Arial", 1, 20));           
             g.drawString("(SPACE) - Play", width / 2 -139, height / 2 - 25);
             g.drawString("(SHIFT) - Disable BOT", width / 2 -139, height / 2 + 25);
-            g.drawString("(CTRL) - Disable Neural Network", width / 2 -139, height / 2 + 75);
+            g.drawString("(CTRL) - Disable Neural Network", width / 2 -139, height / 2 + 75); //03.05.2018 Added
         }
         
         if (gameStatus == 1) {
@@ -182,7 +195,7 @@ public class PongNNet implements ActionListener, KeyListener {
             ball.render(g);
         }
     }    
-        
+    
     /**
      * 
      * @param key 
@@ -241,6 +254,9 @@ public class PongNNet implements ActionListener, KeyListener {
             
             case(KeyEvent.VK_ESCAPE): if (gameStatus == 1) { 
                 gameStatus = 0; 
+            } else {
+                nn.saveNN(); //04.05.2018 Added
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)); //04.05.2018 Added
             } break;
             
             case(KeyEvent.VK_SHIFT): if (gameStatus == 0) {  
@@ -255,8 +271,8 @@ public class PongNNet implements ActionListener, KeyListener {
                 if (!disableBot) {
                     bot = true; 
                 }
-            }
-            start(); break;
+                start(); //04.05.2018 Moved
+            } break; //^ From this line ^
         }
     }
     
