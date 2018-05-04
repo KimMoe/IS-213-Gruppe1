@@ -24,6 +24,16 @@ We have made a basic pong game in Java. We will try and use a neural network to 
 
 The main components are the pong game, and the neural network. Where the pong game, is just a simple game with few rules. And the neural network is made with the Neuroph framework.
 
+#### Live View of Neural Network
+
+![Pong with Neural Network](https://media.discordapp.net/attachments/319884106798202890/441899751336837130/unknown.png?width=523&height=527)
+
+Pong with neural network
+
+![Live view](https://cdn.discordapp.com/attachments/319884106798202890/441899421177872384/unknown.png)
+
+Live view of neural network.
+
 ### PongNNet
 
 #### Pongnnet package:
@@ -45,6 +55,12 @@ The ball class contains the ball movement, collision, spawning, rendering, in ad
 ##### Rendering
 
 Class to help render different objects.
+
+#### NnView packge:
+
+##### NnView
+
+##### Rendering2
 
 #### NeuralNetwork package:
 
