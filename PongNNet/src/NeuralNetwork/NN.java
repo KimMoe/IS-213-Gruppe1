@@ -152,9 +152,15 @@ public class NN{
         }        
     }   
     
+    /**
+     * 
+     * 
+     */
     public void saveNN() { //04.05.2018 Added
-        System.out.println("Saving: ");
-        neuralNetwork.save("neuralNetwork" + generation + ".nnet");
-        System.out.println("Saved: neuralNetwork" + generation + ".nnet");
+        if (!neuralNetwork.isEmpty()) {
+            System.out.println("Saving: ");
+            neuralNetwork.save("neuralNetwork" + generation + ".nnet");
+            System.out.println("Saved: neuralNetwork" + generation + ".nnet");
+        }
     }
 }

@@ -8,11 +8,14 @@ package graphics;
 import NeuralNetwork.NN;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import org.neuroph.core.data.DataSet;
@@ -55,10 +58,40 @@ public class NnView implements ActionListener {
         
         frame.setSize(width, height);
         frame.add(rendery);
+        frame.setResizable(false);
+        
+        removeMinMaxClose(frame);
+        
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //Changed 04.05.2018
         
         timer.start();
+    }
+    
+    /**
+     * Remove Min/Max buttons from title bar.
+     * Added 04.05.2018
+     * 
+     * Not working as intended.
+     * 
+     * SOURCE: https://coderanch.com/t/344419/java/deactivate-close-minimise-resizable-window
+     * 
+     * @param comp 
+     */
+    public void removeMinMaxClose(Component comp) {
+        if(comp instanceof JButton) {
+            String accName = ((JButton) comp).getAccessibleContext().getAccessibleName();
+            System.out.println(accName);
+            if(accName.equals("Maximize") || accName.equals("Iconify") || accName.equals("Close")) { 
+                comp.getParent().remove(comp); 
+            }
+        }
+        if (comp instanceof Container) {
+            Component[] comps = ((Container)comp).getComponents();
+            for(int x = 0, y = comps.length; x < y; x++) {
+                removeMinMaxClose(comps[x]);
+            }
+        }
     }
     
     //The variables are null. 

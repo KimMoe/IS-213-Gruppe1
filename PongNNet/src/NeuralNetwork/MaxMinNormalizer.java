@@ -32,6 +32,10 @@ public class MaxMinNormalizer{
     double[] maxIn, maxOut; // contains max values for in and out columns
     double[] minIn, minOut; // contains min values for in and out columns     
 
+    /**
+     * 
+     * @param dataSet 
+     */
     public void normalize(DataSet dataSet) {
         // find min i max vectors
         findMaxAndMinVectors(dataSet);
@@ -47,7 +51,11 @@ public class MaxMinNormalizer{
         }
     }
     
-  private void findMaxAndMinVectors(DataSet dataSet) {
+    /**
+     * 
+     * @param dataSet 
+     */
+    private void findMaxAndMinVectors(DataSet dataSet) {
         int inputSize = dataSet.getInputSize();
         int outputSize = dataSet.getOutputSize();
         
@@ -90,6 +98,13 @@ public class MaxMinNormalizer{
         }        
     }     
      
+    /**
+     * 
+     * @param vector
+     * @param min
+     * @param max
+     * @return 
+     */
     private double[] normalizeMaxMin(double[] vector, double[] min, double[] max) {
         double[] normalizedVector = new double[vector.length];
 
