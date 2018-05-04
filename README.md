@@ -76,7 +76,9 @@ The only job of this class is to normalize the output of the pong game. This is 
 
 ### Versioning
 
-Current version: 1.1.3
+Current version: 1.2.3
+
+Checkout the wiki for changelogs: [Wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
 
 We use [SemVer](http://semver.org/) for versioning. 
 
