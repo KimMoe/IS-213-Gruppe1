@@ -3,35 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pongnnet;
+package Neural_Network;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Tonnes
  */
-public class Rendering extends JPanel {
-    
-    /**
-     * 
-     */
-    public Rendering() {
-    
-    }
-    
-    /**
-     * 
-     * @param g 
-     */
+public class Neural_View_Rendering extends JPanel {        
     @Override
     protected void paintComponent(Graphics g){        
         
         super.paintComponent(g);
 
-        PongNNet.pong.render((Graphics2D) g);
+        Neural_View.render((Graphics2D) g);
     }
-    
 }
-

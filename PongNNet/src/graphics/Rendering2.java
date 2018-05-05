@@ -3,35 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pongnnet;
+package graphics;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Tonnes
  */
-public class Rendering extends JPanel {
-    
-    /**
-     * 
-     */
-    public Rendering() {
+public class Rendering2 extends JPanel {
+    public Rendering2() {
     
     }
     
     /**
-     * 
-     * @param g 
-     */
+    * 
+    * @param g 
+    */
     @Override
     protected void paintComponent(Graphics g){        
         
         super.paintComponent(g);
 
-        PongNNet.pong.render((Graphics2D) g);
+        graphics.NnView.render((Graphics2D) g);
     }
-    
 }
-

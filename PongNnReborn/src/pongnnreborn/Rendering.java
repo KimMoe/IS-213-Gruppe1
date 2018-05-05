@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pongnnet;
+package pongnnreborn;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
 /**
  *
@@ -14,24 +15,11 @@ import java.awt.*;
  */
 public class Rendering extends JPanel {
     
-    /**
-     * 
-     */
-    public Rendering() {
-    
-    }
-    
-    /**
-     * 
-     * @param g 
-     */
     @Override
     protected void paintComponent(Graphics g){        
         
         super.paintComponent(g);
 
-        PongNNet.pong.render((Graphics2D) g);
+        Pong.pong.render((Graphics2D) g);
     }
-    
 }
-
