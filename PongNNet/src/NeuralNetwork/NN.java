@@ -137,7 +137,7 @@ public class NN{
     }
        
     /**
-     *
+     *Bestemer hva NN gjør ved et gitt output.
      * 
      */
     public void playPong(){
@@ -152,8 +152,7 @@ public class NN{
         }        
     }   
     
-    /**
-     * 
+    /** 
      * 
      */
     public void saveNN() { //04.05.2018 Added
