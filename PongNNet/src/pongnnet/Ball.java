@@ -86,8 +86,8 @@ public class Ball {
         if (pong.isNN) {
             //Data output
             desiredOut = desiredOutput(paddle1);              
-            paddleY = getNNy(paddle1.y);
-            ballY = getNNballY(y);
+            paddleY = getNNy(paddle1.y) * 0.001;
+            ballY = getNNballY(y) *0.001;
 
             //saveFile(paddle1.y, y, paddle1.score, output); 
 
