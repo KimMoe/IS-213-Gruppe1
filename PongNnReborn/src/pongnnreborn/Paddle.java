@@ -17,7 +17,7 @@ public class Paddle {
     public int score = 0;
     
     int paddleNumber;
-    int paddleSpeed = 15;
+    int paddleSpeed = 18;
     
     final int paddleHeight = 150;
     final int paddleWidth = 25;    

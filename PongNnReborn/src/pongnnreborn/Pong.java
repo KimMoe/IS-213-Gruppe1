@@ -40,11 +40,12 @@ public class Pong  implements ActionListener, KeyListener {
     public boolean up; //Player 2 up down
     public boolean down;
     
-    public boolean zero;
-    public boolean one;
+    public boolean zero; //Neural Network up
+    public boolean one; //Neural Network down
     
     static boolean botEnabled = true; //Enable / Disable bot
     static boolean neuralNetworkEnabled = true; //Enable / Disable Neural Network
+    static boolean liveViewEnabled = true;
     
     static Pong pong;
     Rendering pongRendering;
@@ -81,7 +82,7 @@ public class Pong  implements ActionListener, KeyListener {
     
     public void start() {
         gameScreen = 1;
-        if (neuralNetworkEnabled) {
+        if (neuralNetworkEnabled && liveViewEnabled) {
             nn_view = new Neural_View();
         }
         player1 = new Paddle(this, 1);
@@ -92,7 +93,8 @@ public class Pong  implements ActionListener, KeyListener {
     public void render(Graphics2D g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, width, height);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);      
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);   
+        
         if (gameScreen == 0) {
             g.setColor(Color.black);
             g.setFont(new Font("Arial", 1, 150));           
@@ -102,26 +104,42 @@ public class Pong  implements ActionListener, KeyListener {
             g.drawString("- Play", width / 2 -50, height / 2 - 25);
             
             if (botEnabled) {
-                g.drawString("- Disable BOT", width / 2 -50, height / 2 + 25);
+                g.drawString("- BOT: ENABLED", width / 2 -50, height / 2 + 25);
             } else {
-                g.drawString("- Enable BOT", width / 2 -50, height / 2 + 25); 
+                g.drawString("- BOT: DISABLED", width / 2 -50, height / 2 + 25); 
             }
             
             if (neuralNetworkEnabled) {
-                g.drawString("- Disable Neural Network", width / 2 -50, height / 2 + 75);
+                g.drawString("- Neural Network: ENABLED", width / 2 -50, height / 2 + 75);
             } else {
-                g.drawString("- Enable Neural Network", width / 2 -50, height / 2 + 75);
+                g.drawString("- Neural Network: DISABLED", width / 2 -50, height / 2 + 75);
+            }         
+            
+            if (liveViewEnabled && neuralNetworkEnabled) {
+                g.drawString("- Live View: ENABLED", width / 2 -50, height / 2 + 125);
+            } else {
+                g.drawString("- Live View: DISABLED", width / 2 -50, height / 2 + 125); 
+            }
+            
+            if (Neural_Network.fromFileEnabled) {
+                g.drawString("- Loading from file: ENABLED", width / 2 -50, height / 2 + 175);
+            } else {             
+                g.drawString("- Loading from file: DISABLED", width / 2 -50, height / 2 + 175);
             }
             
             g.setColor(Color.red);
             g.drawString("(SPACE)", width / 2 -139, height / 2 - 25); 
-            g.drawString("(SHIFT)", width / 2 -139, height / 2 + 25);
-            g.drawString("(CTRL)", width / 2 -139, height / 2 + 75);
+            g.drawString("(1)", width / 2 -139, height / 2 + 25);
+            g.drawString("(2)", width / 2 -139, height / 2 + 75);
+            g.drawString("(3)",width / 2 -139, height / 2 + 125);
+            g.drawString("(4)",width / 2 -139, height / 2 + 175);
 
-            g.drawString("BOT Status: " + botEnabled, 5, 20);
-            g.drawString("NN Status: " + neuralNetworkEnabled, 5, 40);
+//            g.drawString("BOT Status: " + botEnabled, 5, 20);
+//            g.drawString("NN Status: " + neuralNetworkEnabled, 5, 40);
+                        
 
         }
+        
         if (gameScreen == 1) {
             g.setColor(Color.black);
             
@@ -238,13 +256,21 @@ public class Pong  implements ActionListener, KeyListener {
                 pongFrame.dispatchEvent(new WindowEvent(pongFrame, WindowEvent.WINDOW_CLOSING)); //04.05.2018 Added
             } break; 
             
-            case(KeyEvent.VK_SHIFT): if (gameScreen == 0) {  
+            case(KeyEvent.VK_1): if (gameScreen == 0) {  
                 botEnabled = !botEnabled;
             } break;
             
-            case(KeyEvent.VK_CONTROL): if (gameScreen == 0) {
+            case(KeyEvent.VK_2): if (gameScreen == 0) {
                 neuralNetworkEnabled = !neuralNetworkEnabled;               
             } break;  
+            
+            case(KeyEvent.VK_3): if (gameScreen == 0 && neuralNetworkEnabled) {
+                liveViewEnabled = !liveViewEnabled;                  
+            } break;
+            
+            case(KeyEvent.VK_4): if (gameScreen == 0) {                  
+                Neural_Network.fromFileEnabled = !Neural_Network.fromFileEnabled;
+            } break;
             
             case(KeyEvent.VK_SPACE): if (gameScreen == 0) { 
                 start();

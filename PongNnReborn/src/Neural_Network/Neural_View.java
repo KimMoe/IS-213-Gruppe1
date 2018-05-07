@@ -24,8 +24,8 @@ import pongnnreborn.Ball;
  */
 public class Neural_View implements ActionListener {
      
-    static final int viewWidth = 900;
-    static final int viewHeight = 700;
+    static final int viewWidth = 880;
+    static final int viewHeight = 610;
     
     static double viewInput_1;
     static double viewInput_2;
@@ -185,7 +185,7 @@ public class Neural_View implements ActionListener {
         viewGeneration = neuralNetwork.getGeneration();
         viewInput_1 = neuralNetwork.getInput_1();
         viewInput_2 = neuralNetwork.getInput_2();
-        viewDesiredOutput = neuralNetwork.getDesOutput();
+        viewDesiredOutput = neuralNetwork.getdesOutput();
         viewOutput = neuralNetwork.getNeuralNetwork_Output();
     }
     

@@ -9,11 +9,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
+/*
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+*/
+
 /**
  *
  * @author Tonnes
  */
-public class Ball {
+public class Ball /*implements ActionListener*/ {
     final int ballSpeed = 6;
     final int ballHeight = 25;
     final int ballWidth = 25;
@@ -29,10 +35,14 @@ public class Ball {
     public static double desiredOutput;
     
     private Pong pongBall;
+    
     private Random randomBall;
+    //Timer timer;
     
     public Ball(Pong pong) {
         randomBall = new Random();
+        //timer = new Timer(1000, this);
+        
         pongBall = pong;  
         spawn();
     }
@@ -45,7 +55,8 @@ public class Ball {
         desiredOutput = setDesiredOutput_NN(paddle1);
         
         if (Pong.neuralNetworkEnabled) {
-            pongBall.nn.createDataSet();           
+            //timer.start();
+            pongBall.nn.startNN();
         }
         
         if (ballY + ballHeight - motionY > pongBall.height || ballY + ballHeight + motionY < 0) {
@@ -144,4 +155,10 @@ public class Ball {
             return 0.5;
         }
     }
+/*
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        pongBall.nn.startNN();
+    }
+*/
 }
