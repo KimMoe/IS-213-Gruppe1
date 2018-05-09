@@ -31,6 +31,8 @@ The main components are the pong game, and the neural network. Where the pong ga
 
 ![Architecure](https://cdn.discordapp.com/attachments/349151534086619139/443705411116466185/Archtecture.png)
 
+Check the wiki for more details: [Architecture](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture)
+
 #### Live View of Neural Network
 
 Pong with neural network
