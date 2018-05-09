@@ -1,6 +1,6 @@
 ![Java](https://img.shields.io/badge/Java-8.0-orange.svg)
 ![Neuroph](https://img.shields.io/badge/Neuroph-2.94-brightgreen.svg)
-![license](https://img.shields.io/github/license/mashape/apistatus.svg)(https://github.com/KimMoe/IS-213-Gruppe1)
+![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![NN](https://img.shields.io/badge/Neural%20Network-YES-red.svg)
 ![Pong](https://img.shields.io/badge/Pong-YES-red.svg)
 
