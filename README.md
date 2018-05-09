@@ -27,6 +27,10 @@ We have made a basic pong game in Java. We will try and use a neural network to 
 
 The main components are the pong game, and the neural network. Where the pong game, is just a simple game with few rules. And the neural network is made with the Neuroph framework.
 
+#### Architecture
+
+![Architecure](https://cdn.discordapp.com/attachments/349151534086619139/443705411116466185/Archtecture.png)
+
 #### Live View of Neural Network
 
 Pong with neural network
