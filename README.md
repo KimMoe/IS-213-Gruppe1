@@ -92,35 +92,7 @@ The dataset is comprised of tree different values. These values are:
 	
 1. Paddle1.y - (Paddle 1's y coordinates).
 0. Ball.y - (The ball's y coordinates).
-0. Score - (How many times the ball hit paddle1).
-
-These values need to be normalized to have an easier time, working with them. The values varies between ≈-1 to 550.
-
-##### Normalization of data
-
-###### Paddle.y Min/Max
-
-The paddle is straight forward (top/bottom).
-
-	min: 170
-	max: 550
-
-###### Ball.y Min/Max
-
-The ball sometimes has a negative value.
-
-The lowest value seems to often be -1. But once it was -23.
-
-	min: -1(-23)
-	max: 676
-
-###### Score Min/Max
-
-There are no max value for the score variable.
-
-	min: 0
-	max: no max (Find solution)
-
+0. Desired Output (if the ball is above or below the paddle).
 
 <br>
 
