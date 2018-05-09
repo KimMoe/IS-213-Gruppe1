@@ -30,7 +30,7 @@ The main components are the pong game, and the neural network. Where the pong ga
 
 Pong with neural network
 
-![Live view](https://cdn.discordapp.com/attachments/319884106798202890/441899421177872384/unknown.png)
+![Live view](https://media.discordapp.net/attachments/319884106798202890/443681998653882378/unknown.png?width=840&height=585)
 
 Live view of neural network.
 
