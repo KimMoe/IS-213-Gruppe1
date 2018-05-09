@@ -203,7 +203,7 @@ your extra branch(es).
 
 Moe, Kim Arild
 
-Sakseid, Vegard
+Sakseid, Vegar
 
 Røren, Tønnes Tobias Pedersen
 
