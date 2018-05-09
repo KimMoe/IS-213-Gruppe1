@@ -26,21 +26,21 @@ The main components are the pong game, and the neural network. Where the pong ga
 
 #### Live View of Neural Network
 
-![Pong with Neural Network](https://media.discordapp.net/attachments/319884106798202890/441899751336837130/unknown.png?width=523&height=527)
-
 Pong with neural network
 
-![Live view](https://media.discordapp.net/attachments/319884106798202890/443681998653882378/unknown.png?width=840&height=585)
+![Pong with Neural Network](https://media.discordapp.net/attachments/319884106798202890/441899751336837130/unknown.png?width=523&height=527)
 
 Live view of neural network.
 
-### PongNNet
+![Live view](https://media.discordapp.net/attachments/319884106798202890/443681998653882378/unknown.png?width=840&height=585)
 
-#### Pongnnet package:
+### PongNnReborn - (the third version).
+
+#### Pongnnreborn package:
 
 This package hosts the pong game, plus some neural network components.
 
-##### PongNNet (Main class)
+##### Pong (Main class)
 
 Starts the process of the game. Updates most of the program every 2 milliseconds, with the help of a swing timer.
 
@@ -56,33 +56,34 @@ The ball class contains the ball movement, collision, spawning, rendering, in ad
 
 Class to help render different objects.
 
-#### NnView packge:
-
-##### NnView
-
-##### Rendering2
 
 #### NeuralNetwork package:
 
 This package contains the Neural Network part of the code. For the most part.
 
-##### NN
+##### Neural_Network
 
 This class contains the neural network.
 
-##### MaxMinNormalizer.java
+##### Neural_View
 
-The only job of this class is to normalize the output of the pong game. This is so that the neural network has a easier time learning.
+Contains the extra frame, with information about the neural network.
+
+##### Neural_View_Rendering
+
+Renders the content of the second frame from Neural_View.
+
 
 ### Versioning
 
-Current version: 1.2.3
+Current version: 2.0.1
 
 Checkout the wiki for changelogs: [Wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
 
 We use [SemVer](http://semver.org/) for versioning. 
 
 <br>
+
 
 ### The Neural Network
 
@@ -208,6 +209,16 @@ Røren, Tønnes Tobias Pedersen
 ### 3rd Party:
 
 Neuroph - [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+Neuroph uses: 
+
+* Abeel Java Toolkit (AJT) [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html)
+
+* Java Machine Learning Library (Java-ML) [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html)
+
+* Weka 3: Data Mining Software [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html
+
+* Logback - [Eclipse Public License v1.0](https://www.eclipse.org/legal/epl-v10.html)
 
 <br>
 
