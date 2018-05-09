@@ -216,7 +216,7 @@ Neuroph uses:
 
 * Java Machine Learning Library (Java-ML) [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html)
 
-* Weka 3: Data Mining Software [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html
+* Weka 3: Data Mining Software [GNU Library or Lesser General Public License version 3.0 (LGPLv3)](https://opensource.org/licenses/lgpl-3.0.html)
 
 * Logback - [Eclipse Public License v1.0](https://www.eclipse.org/legal/epl-v10.html)
 
