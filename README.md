@@ -1,6 +1,8 @@
 ![Java](https://img.shields.io/badge/Java-8.0-orange.svg)
 ![Neuroph](https://img.shields.io/badge/Neuroph-2.94-brightgreen.svg)
-![License](https://img.shields.io/github/license/mashape/apistatus.svg)
+![License](https://img.shields.io/badge/Lisence-MIT-blue.svg)
+![NN](https://img.shields.io/badge/Neural%20Network-Operational-green.svg)
+![Pong](https://img.shields.io/badge/Pong-Operational-green.svg)
 
 # Pong with Neural Network
 
