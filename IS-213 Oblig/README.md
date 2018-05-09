@@ -1,5 +1,7 @@
 # Obligatory tasks
 
+This file contains obligatory writing assignments for the course IS-213 Open Source at UiA 2018
+
 ## Theory 1 - Open Source
 
 ## Theory 2 - Open Source Cloud
