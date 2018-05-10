@@ -2,10 +2,10 @@
 
 This file contains obligatory writing assignments for the course IS-213 Open Source at UiA 2018
 
-## Theory 1 - Open Source
+## Theory 1 - Historie til og analyse av fenomenet "åpen kildekode programvare".
 
-## Theory 2 - Skytjenester og Open Source
+## Theory 2 - Skytjenester og Open Source.
 
-## Theory 3 - How does Open Source influence data computing.
+## Theory 3 - Hvilken innflytelse har UNIX filosofi på dagens databehandling?
 
 ## Theory 4 - ?Choose you task?
