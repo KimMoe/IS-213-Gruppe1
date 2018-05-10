@@ -2,9 +2,10 @@
 
 This file contains obligatory writing assignments for the course IS-213 Open Source at UiA 2018.
 These assignment are written in Norwegian by:
--Kim Arild Moe
--Tønnes Tobias Pedersen Røren
--Vegar Sakseid
+
+- Kim Arild Moe
+- Tønnes Tobias Pedersen Røren
+- Vegar Sakseid
 
 ## Theory 1 - Historie til og analyse av fenomenet "åpen kildekode programvare".
 
