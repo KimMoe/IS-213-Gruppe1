@@ -133,7 +133,7 @@ public class Neural_Network {
         System.out.print("Learning data...       ");
         
         //nnet.randomizeWeights(random);
-        nnet.learn(dataSet);                                    //STOPS WHEN THERE IS A 1.0 IN THE TXT FILE.
+        nnet.learn(dataSet);     //STOPS WHEN THERE IS A 1.0 IN THE TXT FILE.
         
         System.out.println("Data Learnt!");
         
