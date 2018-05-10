@@ -4,7 +4,7 @@ This file contains obligatory writing assignments for the course IS-213 Open Sou
 
 ## Theory 1 - Open Source
 
-## Theory 2 - Open Source Cloud
+## Theory 2 - Skytjenester og Open Source
 
 ## Theory 3 - How does Open Source influence data computing.
 
