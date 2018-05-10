@@ -20,7 +20,8 @@ import pongnnreborn.Pong;
 import pongnnreborn.Ball;
 
 /**
- *
+ * This is the neural network. It deals with gathering input, create file, load file,  
+ * creating datasets, learning from data sets and calculating output.
  * @author Tonnes
  */
 public class Neural_Network {
@@ -87,7 +88,7 @@ public class Neural_Network {
     }
     
     /**
-     * 
+     * If there ex
      */
     public void startNN() {
         //writeToFile(file); //<-- Use to create files with data.
@@ -100,14 +101,15 @@ public class Neural_Network {
     }
     
     /**
-     * 
+     * If there exist a dataset it will load or else it will create a file for the datasets
      */
     public void clearDataSet() {
         dataSet = new DataSet(inputs, outputs);
     }
     
     /**
-     * 
+     * Create a dataset based in the posisoning of ball and paddel.
+     * Then store it and use it for training of the neural network.
      */
     public void createDataSet() {           
         System.out.print("Creating DataSet...     ");
@@ -125,8 +127,7 @@ public class Neural_Network {
     }
     
     /**
-     * 
-     * 
+     * Uses the dataset for training and updates the generation of the neural network by one
      */
     public void teachNeuralNetwork() {
         System.out.print("Learning data...       ");
@@ -142,7 +143,7 @@ public class Neural_Network {
     }
     
     /**
-     * 
+     * Uses the input and training sets to calculate what the desired output will be
      */
     public void calculateOutput() {      
         System.out.print("Output getting calculated...      ");
@@ -194,7 +195,7 @@ public class Neural_Network {
     }
     
     /**
-     * 
+     * Decides what the outcome of the different outputs are
      * @param output 
      */
     public void playPong(double output) {
