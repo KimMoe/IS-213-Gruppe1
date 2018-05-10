@@ -16,7 +16,7 @@ import javax.swing.Timer;
 */
 
 /**
- *
+ * This is the ball class and contains that dictates  how the ball will behave during pong.
  * @author Tonnes
  */
 public class Ball /*implements ActionListener*/ {
@@ -139,6 +139,9 @@ public class Ball /*implements ActionListener*/ {
         return 0;
     }
     
+    /**
+    * Renders the graphic of the pong interface
+    */
     public void render(Graphics2D g) {
         g.setColor(Color.black);
         g.fillOval(ballX, ballY, ballWidth, ballHeight);
