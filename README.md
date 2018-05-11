@@ -81,13 +81,17 @@ We use [SemVer](http://semver.org/) for versioning.
 
 Inputs:
 
+```
 1. Paddle1.y: Y cordinates of the paddle.
 0. Ball.y: Y cordinates of the ball.
 0. Desired Output: 0, 0.5, or 1. Created by checking if the ball is above, below, or at the paddle position. 
+```
 
 Outputs:
 
+```
 1. Output 1: Number beetwen 0-1. Uses to see if the neural network needs to go up or down.
+```
 
 <br>
 
@@ -103,6 +107,8 @@ What things do you need to hava ready before using the software, and how to inst
 ### Installation
 
 A step by step series of examples that tell you have to get a development enviroment running
+
+```
 
 1. Download the repository.
 
@@ -147,6 +153,8 @@ A step by step series of examples that tell you have to get a development enviro
 
 9. Check out the contribution page for more information on cotribution. 
 
+```
+
 <br>
 
 
@@ -159,7 +167,8 @@ Tests we wanted and should have had:
 * Unit testing
 * Syntax testing/Coding style
 
-``` ### Running tests
+``` 
+### Running tests
 
 ### Break down into end to end tests
 
@@ -176,14 +185,8 @@ Explain what these tests test and why
 ``java
 Give an example
 ``
+
 ```
-
-<br>
-
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 <br>
 
@@ -246,4 +249,9 @@ Neuroph uses:
 
 * Hat tip to anyone who's code was used. 🎩
 * Neuroph for having an open source neural network. 🤖
+* Other thanks:
+
+     * [fabiorino](https://github.com/fabiorino/) for having an example on how to implement neural networks in pong, with java - [Example](https://github.com/fabiorino/NeuralNetwork-plays-Pong). 😚
+     * [Neuroh again](https://github.com/neuroph) for having sample projects to help us with the program - [Samples](https://github.com/neuroph/neuroph/tree/master/neuroph-2.9/Samples/src/main/java/org/neuroph/samples). 🌐
+    
 * Lisence creators, for letting everyone use thier liceses free of charge. 📃
