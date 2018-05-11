@@ -1,6 +1,8 @@
 ![Java](https://img.shields.io/badge/Java-8.0-orange.svg)
 ![Neuroph](https://img.shields.io/badge/Neuroph-2.94-brightgreen.svg)
 ![License](https://img.shields.io/badge/Lisence-MIT-blue.svg)
+
+
 ![NN](https://img.shields.io/badge/Neural%20Network-Operational-green.svg)
 ![Pong](https://img.shields.io/badge/Pong-Operational-green.svg)
 
@@ -11,7 +13,6 @@
 1. [The Software](#the-software)
 0. [Getting Started](#getting-started)
 0. [Tests](#tests)
-0. [Deployment](#deployment)
 0. [Built with](#built-with)
 0. [Contributing](#contributing)
 0. [Developers](#developers)
@@ -27,7 +28,7 @@ We have made a basic pong game in Java. We will try and use a neural network to 
 
 Short description of the software.
 
-More info [here](https://github.com/KimMoe/IS-213-Gruppe1/wiki)
+More info [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki)
 
 ###### Pong
 
@@ -71,7 +72,7 @@ For more information about the architecture of the software, check out the [wiki
 
 Current version: 2.1.2
 
-Checkout the wiki for changelogs: [Wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
+Checkout the wiki for changelogs: [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
 
 We use [SemVer](http://semver.org/) for versioning. 
 
@@ -168,10 +169,6 @@ Tests we wanted and should have had:
 * Syntax testing/Coding style
 
 ``` 
-### Running tests
-
-### Break down into end to end tests
-
 Explain what these tests test and why
 
 ``java
@@ -185,7 +182,6 @@ Explain what these tests test and why
 ``java
 Give an example
 ``
-
 ```
 
 <br>
