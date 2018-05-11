@@ -25,67 +25,58 @@ We have made a basic pong game in Java. We will try and use a neural network to 
 
 ## The software
 
-The main components are the pong game, and the neural network. Where the pong game, is just a simple game with few rules. And the neural network is made with the Neuroph framework.
+Short description of the software.
 
-#### Architecture
+More info [here](https://github.com/KimMoe/IS-213-Gruppe1/wiki)
 
-![Architecure](https://cdn.discordapp.com/attachments/349151534086619139/443705411116466185/Archtecture.png)
+###### Pong
 
-Check the wiki for more details: [Architecture](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture)
-
-#### Live View of Neural Network
-
-Pong with neural network
+The first part of the software, is a pong game. The pong game is just a basic implementation of the classic pong game. Where you bounce a ball with a paddle from left to right, right to left.
 
 ![Pong with Neural Network](https://media.discordapp.net/attachments/319884106798202890/441899751336837130/unknown.png?width=523&height=527)
 
-Live view of neural network.
+Pong
+
+###### Neural Network
+
+The second part is a implementation of Neuroph's multilayer perceptron neural network. This neural network, learns and plays the game at a almost too high rate. 
+
+###### Live View
+
+The third and final part of the software handels the second frame. The live view frame. It's implementet so that the user can see what inputs the neural network get, and what outputs it generates. Albeit it's might be a bit hard to read, because it updates every 15 millisecond...
 
 ![Live view](https://media.discordapp.net/attachments/319884106798202890/443681998653882378/unknown.png?width=840&height=585)
 
+Live view
+
+<br>
+
+
 ### PongNnReborn - (the third version).
 
-#### Pongnnreborn package:
+#### Class description
 
-This package hosts the pong game, plus some neural network components.
+Description of the different classes used by the program.
 
-##### Pong (Main class)
+| Class | Package | Description |
+| ----- | ------- | ----------- |
+| Pong  | Pongnnreborn | Main class, handels the pong aspect of the program. |
+| Paddle | Pongnnreborn | Creates "Paddle" objects used in the pong game. |
+| Ball | Pongnnreborn | Creates a "Ball" object used in the game. In addition to gathering data for NN. |
+| Rendering | Pongnnreborn | Renders the Pong frame. |
+| Neural_Network | Neural_Network | Neural Network class. Creates, learns, and uses the neural network to play pong. |
+| Neural_View | Neural_Network | Handles the Neural network live view frame. |
+| Neural_View_Rendering | Neural_Network | Renders the live view frame. |
 
-Starts the process of the game. Updates most of the program every 2 milliseconds, with the help of a swing timer.
+#### Architecture 
 
-##### Paddle
+For more information about the architecture of the software, check out the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture).
 
-Handles the paddle movement and rendering.
-
-##### Ball
-
-The ball class contains the ball movement, collision, spawning, rendering, in addition to the testData output method.
-
-##### Rendering
-
-Class to help render different objects.
-
-
-#### NeuralNetwork package:
-
-This package contains the Neural Network part of the code. For the most part.
-
-##### Neural_Network
-
-This class contains the neural network.
-
-##### Neural_View
-
-Contains the extra frame, with information about the neural network.
-
-##### Neural_View_Rendering
-
-Renders the content of the second frame from Neural_View.
-
+<br>
 
 ### Versioning
 
-Current version: 2.0.1
+Current version: 2.1.2
 
 Checkout the wiki for changelogs: [Wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
 
@@ -96,13 +87,17 @@ We use [SemVer](http://semver.org/) for versioning.
 
 ### The Neural Network
 
-#### DataSet
+#### Data
 
-The dataset is comprised of tree different values. These values are: 
-	
-1. Paddle1.y - (Paddle 1's y coordinates).
-0. Ball.y - (The ball's y coordinates).
-0. Desired Output (if the ball is above or below the paddle).
+Inputs:
+
+1. Paddle1.y: Y cordinates of the paddle.
+0. Ball.y: Y cordinates of the ball.
+0. Desired Output: 0, 0.5, or 1. Created by checking if the ball is above, below, or at the paddle position. 
+
+Outputs:
+
+0. Output 1: Number beetwen 0-1. Uses to see if the neural network needs to go up or down.
 
 <br>
 
@@ -140,26 +135,32 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Tests
 
-### Running tests
+We haven't had time to implement the tests we wanted to. 
 
-Explain how to run the automated tests for this system
+Tests we wanted and should have had:
+
+* Unit testing
+* Syntax testing/Coding style
+
+``` ### Running tests
 
 ### Break down into end to end tests
 
 Explain what these tests test and why
 
-```java
+``java
 Give an example
-```
+``
 
 ### And coding style tests
 
 Explain what these tests test and why
 
-```java
+``java
 Give an example
-```
+``
 
+```
 <br>
 
 ## Deployment
@@ -180,23 +181,8 @@ Java 8 - [Webpage](https://www.oracle.com/index.html)
 
 ## Contributing
 
-If you want to contribute to a project and make it better, your help is very welcome. 
-We appreciate help on coding, interface as well as documentation. 
+[Contributing](https://github.com/KimMoe/IS-213-Gruppe1/blob/master/CONTRIBUTING.md)
 
-### How to make a pull request and push
-
-- Create a personal fork of the project on Github.
-- Clone the fork on your local machine. Your remote repo on Github is called `origin`.
-- Add the original repository as a remote called `upstream`.
-- If you created your fork a while ago be sure to pull upstream changes into your local repository.
-- Create a new branch to work on! Branch from `develop`.
-- Implement/fix your feature, comment your code.
-- Write or adapt tests as needed.
-- Add or change the documentation as needed.
-- Push your branch to your fork on Github, the remote `origin`.
-- From your fork open a pull request in the correct branch. Target the project's `develop`.
-- Once the pull request is approved and merged you can pull the changes from `upstream` to your local repo and delete
-your extra branch(es).
 <br>
 
 ## Developers
@@ -233,6 +219,6 @@ Neuroph uses:
 
 ## Acknowledgements
 
-* Hat tip to anyone who's code was used.
-* Neuroph for having an open source neural network.
-* etc
+* Hat tip to anyone who's code was used. 🎩
+* Neuroph for having an open source neural network. 🤖
+* Lisence creators, for letting everyone use thier liceses free of charge. 📃
