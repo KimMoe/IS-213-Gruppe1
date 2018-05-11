@@ -91,19 +91,16 @@ Outputs:
 
 <br>
 
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things do you need to hava ready before using the software, and how to install them.
 
-```java
-Give examples
-```
-
-### Installing
+### Installation
 
 A step by step series of examples that tell you have to get a development enviroment running
 
@@ -179,7 +176,6 @@ Explain what these tests test and why
 ``java
 Give an example
 ``
-
 ```
 
 <br>
@@ -189,7 +185,7 @@ Give an example
 
 Add additional notes about how to deploy this on a live system
 
-<br><br>
+<br>
 
 ## Built With
 
