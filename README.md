@@ -49,11 +49,6 @@ The third and final part of the software handels the second frame. The live view
 
 Live view
 
-<br>
-
-
-### PongNnReborn - (the third version).
-
 #### Class description
 
 Description of the different classes used by the program.
@@ -70,9 +65,7 @@ Description of the different classes used by the program.
 
 #### Architecture 
 
-For more information about the architecture of the software, check out the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture).
-
-<br>
+For more information about the architecture of the software, check out the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture). 
 
 ### Versioning
 
@@ -81,9 +74,6 @@ Current version: 2.1.2
 Checkout the wiki for changelogs: [Wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
 
 We use [SemVer](http://semver.org/) for versioning. 
-
-<br>
-
 
 ### The Neural Network
 
@@ -97,7 +87,7 @@ Inputs:
 
 Outputs:
 
-0. Output 1: Number beetwen 0-1. Uses to see if the neural network needs to go up or down.
+1. Output 1: Number beetwen 0-1. Uses to see if the neural network needs to go up or down.
 
 <br>
 
@@ -115,23 +105,53 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+A step by step series of examples that tell you have to get a development enviroment running
 
-Say what the step will be
+1. Download the repository.
 
-```java
-Give the example
-```
+2. Download the neuroph 2.94 library from [here](http://neuroph.sourceforge.net/download.html).
 
-And repeat
+3. Open the PongNnReborn project in your IDE of choice (we used Netbeans). 
 
-```java
-until finished
-```
+4. Apply the needed libraries from the Neuroph download.
 
-End with an example of getting some data out of the system or using it for a little demo
+   Neuroph (Needed):
+
+   * Neuroph-adapters
+   * Neuroph-contrib
+   * Neuroph-core
+   * Neuroph-ocr
+
+   Neuroph (Optional):
+
+   * Neuroph-samples
+   * Neuroph-samples-Javadoc
+   * Neuroph-adapters-Javadoc
+   * Neuroph-contrib-Javadoc
+   * Neuroph-core-Javadoc
+   * Neuroph-ocr-Javadoc
+
+   Neuroph dependencies (Needed):
+
+   * Ajt
+   * Java-ML
+   * Logback-core
+   * Sfl4-API
+   * Sfl4-NOP
+   * Weka
+
+5. Test the software by compiling it with the IDE.
+
+6. Use 1-4 and space to change the setting in the pong menu.
+
+7. Start the game, and enjoy a neural network playing agains a BOT, or a human.
+
+8. You can now edit/change the program has much as you would like.
+
+9. Check out the contribution page for more information on cotribution. 
 
 <br>
+
 
 ## Tests
 
@@ -161,13 +181,15 @@ Give an example
 ``
 
 ```
+
 <br>
+
 
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
 
-<br>
+<br><br>
 
 ## Built With
 
@@ -185,6 +207,7 @@ Java 8 - [Webpage](https://www.oracle.com/index.html)
 
 <br>
 
+
 ## Developers
 
 Moe, Kim Arild
@@ -193,9 +216,14 @@ Sakseid, Vegar
 
 Røren, Tønnes Tobias Pedersen
 
+_Your name here_ 
+
 <br>
 
+
 ## License
+
+Collection of licenses applicable to the project.
 
 ### Our
 
@@ -216,6 +244,7 @@ Neuroph uses:
 * Logback - [Eclipse Public License v1.0](https://www.eclipse.org/legal/epl-v10.html)
 
 <br>
+
 
 ## Acknowledgements
 
