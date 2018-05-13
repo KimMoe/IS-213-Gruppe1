@@ -209,7 +209,6 @@ Sakseid, Vegar
 
 Røren, Tønnes Tobias Pedersen
 
-_Your name here_ 
 
 <br>
 
