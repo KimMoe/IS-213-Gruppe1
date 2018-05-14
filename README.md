@@ -26,73 +26,6 @@ We have made a basic pong game in Java. We will try and use a neural network to 
 
 More information in the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki).
 
-###### Pong
-
-The first part of the software, is a pong game. The pong game is just a basic implementation of the classic pong game. Where you bounce a ball with a paddle from left to right, right to left.
-
-![Pong with Neural Network](https://media.discordapp.net/attachments/319884106798202890/441899751336837130/unknown.png?width=523&height=527)
-
-Pong
-
-###### Neural Network
-
-The second part is a implementation of Neuroph's multilayer perceptron neural network. This neural network, learns and plays the game at a almost too high rate. 
-
-###### Live View
-
-The third and final part of the software handels the second frame. The live view frame. It's implementet so that the user can see what inputs the neural network get, and what outputs it generates. Albeit it's might be a bit hard to read, because it updates every 15 millisecond...
-
-![Live view](https://media.discordapp.net/attachments/319884106798202890/443681998653882378/unknown.png?width=840&height=585)
-
-Live view
-
-#### Class description
-
-Description of the different classes used by the program.
-
-| Package | Class | Description |
-| ----- | ------- | ----------- |
-| Pongnnreborn  | Pong | Main class, handels the pong aspect of the program. |
-| Pongnnreborn | Paddle | Creates "Paddle" objects used in the pong game. |
-| Pongnnreborn | Ball | Creates a "Ball" object used in the game. In addition to gathering data for NN. |
-| Pongnnreborn | Rendering | Renders the Pong frame. |
-| Neural_Network | Neural_Network | Neural Network class. Creates, learns, and uses the neural network to play pong. |
-| Neural_Network | Neural_View | Handles the Neural network live view frame. |
-| Neural_Network | Neural_View_Rendering | Renders the live view frame. |
-
-#### Architecture 
-
-For more information about the architecture of the software, check out the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Architecture). 
-
-### Versioning
-
-Current version: 2.1.2
-
-Checkout the wiki for changelogs: [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki/Versions)
-
-We use [SemVer](http://semver.org/) for versioning. 
-
-### The Neural Network
-
-#### Data
-
-Inputs:
-
-```
-1. Paddle1.y: Y cordinates of the paddle.
-2. Ball.y: Y cordinates of the ball.
-3. Desired Output: 0, 0.5, or 1. Created by checking if the ball is above, below, or at the paddle position. 
-```
-
-Outputs:
-
-```
-1. Output 1: Number beetwen 0-1. Uses to see if the neural network needs to go up or down.
-```
-
-<br>
-
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -151,34 +84,6 @@ A step by step series of examples that tell you have to get a development enviro
 
 9. Check out the contribution page for more information on cotribution to the official proram. 
 
-```
-
-<br>
-
-
-## Tests
-
-We haven't had time to implement the tests we wanted to. 
-
-Tests we wanted and should have had:
-
-* Unit testing
-* Syntax testing/Coding style
-
-``` 
-Explain what these tests test and why
-
-``java
-Give an example
-``
-
-### And coding style tests
-
-Explain what these tests test and why
-
-``java
-Give an example
-``
 ```
 
 <br>
@@ -246,4 +151,4 @@ Neuroph uses:
      * [fabiorino](https://github.com/fabiorino/) for having an example on how to implement neural networks in pong, with java - [Example](https://github.com/fabiorino/NeuralNetwork-plays-Pong). 😚
      * [Neuroh again](https://github.com/neuroph) for having sample projects to help us with the program - [Samples](https://github.com/neuroph/neuroph/tree/master/neuroph-2.9/Samples/src/main/java/org/neuroph/samples). 🌐
     
-* Lisence creators, for letting everyone use thier liceses free of charge. 📃
+* License creators, for letting everyone use thier licenses free of charge. 📃
