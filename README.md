@@ -10,7 +10,6 @@
 
 1. [The Software](#the-software)
 0. [Getting Started](#getting-started)
-0. [Tests](#tests)
 0. [Built with](#built-with)
 0. [Contributing](#contributing)
 0. [Developers](#developers)
