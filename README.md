@@ -32,11 +32,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things do you need to hava ready before using the software, and how to install them.
+You need to have Java JDK installed. In addition to any IDE supporting java, we recommend: Netbeans or IntelliJ.
+
+You find Java JDK 8 here: [Oracle.com](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
+You find Netbeans here: [Netbeans.org](https://netbeans.org/downloads/)
+
+Or IntilliJ here: [Jetbrains.com](https://www.jetbrains.com/idea/download/#section=windows)
 
 ### Installation
 
-A step by step series of examples that tell you have to get a development enviroment running
+A step by step guide for getting the project up and running. 
 
 ```
 
