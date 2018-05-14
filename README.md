@@ -17,16 +17,14 @@
 0. [License](#license)
 0. [Acknowledgements](#acknowledgements)
 
-This is a university project were we try to get a better understanding of machine learning and neural networks.
-We have made a basic pong game in Java. We will try and use a neural network to learn and play the game.
-
 <br>
 
 ## The software
 
-Short description of the software.
+This is a university project were we try to get a better understanding of machine learning and neural networks.
+We have made a basic pong game in Java. We will try and use a neural network to learn and play the game.
 
-More info [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki)
+More information in the [wiki](https://github.com/KimMoe/IS-213-Gruppe1/wiki).
 
 ###### Pong
 
@@ -52,15 +50,15 @@ Live view
 
 Description of the different classes used by the program.
 
-| Class | Package | Description |
+| Package | Class | Description |
 | ----- | ------- | ----------- |
-| Pong  | Pongnnreborn | Main class, handels the pong aspect of the program. |
-| Paddle | Pongnnreborn | Creates "Paddle" objects used in the pong game. |
-| Ball | Pongnnreborn | Creates a "Ball" object used in the game. In addition to gathering data for NN. |
-| Rendering | Pongnnreborn | Renders the Pong frame. |
+| Pongnnreborn  | Pong | Main class, handels the pong aspect of the program. |
+| Pongnnreborn | Paddle | Creates "Paddle" objects used in the pong game. |
+| Pongnnreborn | Ball | Creates a "Ball" object used in the game. In addition to gathering data for NN. |
+| Pongnnreborn | Rendering | Renders the Pong frame. |
 | Neural_Network | Neural_Network | Neural Network class. Creates, learns, and uses the neural network to play pong. |
-| Neural_View | Neural_Network | Handles the Neural network live view frame. |
-| Neural_View_Rendering | Neural_Network | Renders the live view frame. |
+| Neural_Network | Neural_View | Handles the Neural network live view frame. |
+| Neural_Network | Neural_View_Rendering | Renders the live view frame. |
 
 #### Architecture 
 
@@ -82,8 +80,8 @@ Inputs:
 
 ```
 1. Paddle1.y: Y cordinates of the paddle.
-0. Ball.y: Y cordinates of the ball.
-0. Desired Output: 0, 0.5, or 1. Created by checking if the ball is above, below, or at the paddle position. 
+2. Ball.y: Y cordinates of the ball.
+3. Desired Output: 0, 0.5, or 1. Created by checking if the ball is above, below, or at the paddle position. 
 ```
 
 Outputs:
@@ -124,15 +122,6 @@ A step by step series of examples that tell you have to get a development enviro
    * Neuroph-core
    * Neuroph-ocr
 
-   Neuroph (Optional):
-
-   * Neuroph-samples
-   * Neuroph-samples-Javadoc
-   * Neuroph-adapters-Javadoc
-   * Neuroph-contrib-Javadoc
-   * Neuroph-core-Javadoc
-   * Neuroph-ocr-Javadoc
-
    Neuroph dependencies (Needed):
 
    * Ajt
@@ -142,15 +131,25 @@ A step by step series of examples that tell you have to get a development enviro
    * Sfl4-NOP
    * Weka
 
-5. Test the software by compiling it with the IDE.
+   Neuroph (Optional):
 
-6. Use 1-4 and space to change the setting in the pong menu.
+   * Neuroph-samples
+   * Neuroph-samples-Javadoc
+   * Neuroph-adapters-Javadoc
+   * Neuroph-contrib-Javadoc
+   * Neuroph-core-Javadoc
+   * Neuroph-ocr-Javadoc
+   
 
-7. Start the game, and enjoy a neural network playing agains a BOT, or a human.
+5. Try starting the software by compiling it with the IDE.
 
-8. You can now edit/change the program has much as you would like.
+6. Use 1-4 and space to change the setting in the pong start menu.
 
-9. Check out the contribution page for more information on cotribution. 
+7. Start the game, and enjoy a neural network playing agains a bot, or a human.
+
+8. You can now edit/change the program has much as you would like. You can even fork the project to create your own version.
+
+9. Check out the contribution page for more information on cotribution to the official proram. 
 
 ```
 
