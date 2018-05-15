@@ -17,8 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 /**
- *
- * @author Tonnes
+ * @version 2.1.1
+ * 
+ * The main class for the pong game. 
+ * 
+ * @author Group 1
  */
 public class Pong  implements ActionListener, KeyListener {
  
@@ -73,6 +76,7 @@ public class Pong  implements ActionListener, KeyListener {
     
     /**
      * Main method, makes a new object of Pong and starts the game
+     * 
      * @param args 
      */
     public static void main(String[] args) {
@@ -89,6 +93,11 @@ public class Pong  implements ActionListener, KeyListener {
         ball = new Ball(this);    
     }
     
+    /**
+     * Rendering the different shapes and strings for the pong frame.
+     * 
+     * @param g AWT Graphics2D
+     */
     public void render(Graphics2D g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, width, height);
@@ -172,6 +181,10 @@ public class Pong  implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Updates everything every time the timer actives.
+     * 
+     */
     public void update() {
         if (!neuralNetworkEnabled) {
             if(w) {
@@ -209,14 +222,25 @@ public class Pong  implements ActionListener, KeyListener {
         ball.update(player1, player2);
     }  
     
-    
+    /**
+     * The way the neural network can play the pong game.
+     * 
+     * nnPress is pressing the button.
+     * 
+     * @param key the input the neural network came up with, based on inputs.
+     */
     public void nnPress(char key){
         switch (key){
             case('w'): zero = true; break;
             case('s'): one = true; break;
         }
     }
-      
+    
+    /**
+     * nnRelease is releasing the button.
+     * 
+     * @param key the input the neural network came up with, based on inputs.
+     */
     public void nnRelease(char key){
         switch (key){
             case('w'): zero = false; break;
@@ -225,6 +249,11 @@ public class Pong  implements ActionListener, KeyListener {
     }    
     
     
+    /**
+     * Activates every time the timer activates, which is every 15 milliseconds.
+     * 
+     * @param e AWT ActionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (gameScreen == 1)  {
@@ -233,10 +262,20 @@ public class Pong  implements ActionListener, KeyListener {
         pongRendering.repaint();   
     }
 
+    /**
+     * Not in use.
+     * 
+     * @param e 
+     */
     @Override
     public void keyTyped(KeyEvent e) {        
     }
 
+    /**
+     * When a button is pressed.
+     * 
+     * @param e A key or button id.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int id = e.getKeyCode();
@@ -274,6 +313,11 @@ public class Pong  implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Key released
+     * 
+     * @param e 
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int id = e.getKeyCode();

@@ -10,8 +10,9 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /**
- *
- * @author Tonnes
+ * This class repaints or renders the neural network view frame. 
+ * 
+ * @author Group 1
  */
 public class Neural_View_Rendering extends JPanel {        
     @Override

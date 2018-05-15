@@ -10,8 +10,9 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /**
- *
- * @author Tonnes
+ * This class is responsible for repainting or rendering the pong frame. 
+ * 
+ * @author Group 1
  */
 public class Rendering extends JPanel {
     

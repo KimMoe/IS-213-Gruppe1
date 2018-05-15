@@ -22,7 +22,8 @@ import pongnnreborn.Ball;
  * This class creates a view of the neural network that shows a representation of how it works
  * It is made to lock like a visualisation of how a neural network works.
  * It will show the inputs it receives and the calculated output
- * @author Tonnes
+ * 
+ * @author Group 1
  */
 public class Neural_View implements ActionListener {
      
@@ -61,6 +62,11 @@ public class Neural_View implements ActionListener {
         viewTimer.start();
     }
     
+    /**
+     * Specifies what objects and shapes that are going to be rendered on the neural network view frame.
+     * 
+     * @param g AWT Graphics2D
+     */
     protected static void render(Graphics2D g) {        
         //Get data to display.
         getLiveData();
@@ -148,6 +154,11 @@ public class Neural_View implements ActionListener {
     
     }
     
+    /**
+     * Helper to the render method, for easier understanding of content.
+     * 
+     * @param g AWT Graphics2D
+     */
     private static void renderShapes(Graphics2D g) {
         g.setColor(Color.getHSBColor(16, 69, 100));
         
@@ -215,6 +226,15 @@ public class Neural_View implements ActionListener {
     }
 
 
+    /**
+     * Fetches the data from other classes.
+     * 
+     * viewGeneration = generation from Neural_Network
+     * viewInput_1 = Input 1 from Neural_Network
+     * viewInput_2 = Input 2 from Neural_Network
+     * viewDesiredOutput = The desired output from Neural_Network
+     * viewOutput = The calculated output from Neural_Network
+     */
     private static void getLiveData() {
         viewGeneration = neuralNetwork.getGeneration();
         viewInput_1 = neuralNetwork.getInput_1();
@@ -223,6 +243,11 @@ public class Neural_View implements ActionListener {
         viewOutput = neuralNetwork.getNeuralNetwork_Output();
     }
     
+    /**
+     * Listens for the timer which actives every 2 milliseconds. 
+     * 
+     * @param e ActionEvent from AWT
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         renderingView.repaint();

@@ -7,7 +7,8 @@ import java.util.Random;
 
 /**
  * This is the ball class and contains everything that dictates  how the ball will behave during pong.
- * @author Tonnes
+ * 
+ * @author Group 1
  */
 public class Ball{
     final int ballSpeed = 6;
@@ -41,8 +42,8 @@ public class Ball{
     
     /**
      * Method that updates the motion of the ball
-     * @param paddle1
-     * @param paddle2 
+     * @param paddle1 Paddle player 1
+     * @param paddle2 Paddle player 2
      */
     public void update(Paddle paddle1, Paddle paddle2) {
         ballX += motionX * ballSpeed;
@@ -103,6 +104,7 @@ public class Ball{
     
     /**
      * Starts a new game with the ball in the center of the moard and the paddles positioned at the middle of the edges
+     * 
      */
     public void spawn() {
         ballX = pongBall.width / 2 - ballWidth /2;
@@ -128,8 +130,8 @@ public class Ball{
      * BUGGED. When the ball hits the top or bottom of the paddle, the score shots up. Because it's techinally behind it.
      * It would be interesting if the NN learn to abuse this bug...
      * 
-     * @param paddle The paddle that is to be checked
-     * @return returns an int. 1 if the ball hits the paddle, 2 if the ball is behind the paddle, else it returns 0
+     * @param paddle The paddle that is to be checked.
+     * @return returns an int. 1 if the ball hits the paddle, 2 if the ball is behind the paddle, else it returns 0.
      */
     public int checkCollision(Paddle paddle) {
         if (ballX < paddle.paddleX + paddle.paddleWidth && ballX + ballWidth > paddle.paddleX && ballY < paddle.paddleY + paddle.paddleHeight && ballY + ballHeight > paddle.paddleY) {
@@ -143,9 +145,9 @@ public class Ball{
     }
     
     /**
-    * Renders the graphic of the pong interface
+    * Renders the graphic of the pong interface.
     * 
-     * @param g
+    * @param g
     */
     public void render(Graphics2D g) {
         g.setColor(Color.black);
@@ -153,9 +155,10 @@ public class Ball{
     } 
     
     /**
+     * Returns a value to be used in the neural network.
      * 
-     * @param paddle
-     * @return 
+     * @param paddle player 1 paddle (AKA neural network paddle).
+     * @return returns if the ball is above, below, or at the paddle y cordinates.
      */
     public double setDesiredOutput_NN(Paddle paddle) {
         if (ballY < paddle.paddleY) {

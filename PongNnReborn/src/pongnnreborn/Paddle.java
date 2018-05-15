@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
- *
- * @author Tonnes
+ * Handels the pong object used on both sides of the screen in pong. 
+ * 
+ * @author Group 1
  */
 public class Paddle {
     
@@ -34,9 +35,9 @@ public class Paddle {
     }
     
     /**
-     * Method that makes the graphics of the paddle
+     * Method that makes the graphics of the paddle.
      * 
-     * @param g 
+     * @param g AWT Graphics2D
      */
     public void render(Graphics2D g) {
         if (paddleNumber == 1) {
@@ -50,9 +51,9 @@ public class Paddle {
     }
     
     /**
-     * Method to move the paddle
+     * Method to move the paddle.
      * 
-     * @param up 
+     * @param up if the paddle is to be moved up or down
      */
     public void move(boolean up) {
         if(up) {
