@@ -9,16 +9,24 @@ These assignment are written by:
 
 ## Theory 1 - Historie til og analyse av fenomenet "åpen kildekode programvare".
 
-Norwegian
+Norwegian  
+
+Paper [1](https://github.com/KimMoe/IS-213-Gruppe1/blob/master/IS-213%20Oblig/TEORIBLOKK%20%231.pdf)
 
 ## Theory 2 - Skytjenester og Open Source.
 
-Norwegian
+Norwegian  
+
+Paper [2](https://github.com/KimMoe/IS-213-Gruppe1/blob/master/IS-213%20Oblig/TEORIBLOKK%20%232.pdf)
 
 ## Theory 3 - Hvilken innflytelse har UNIX filosofi på dagens databehandling?
 
-Norwegian
+Norwegian 
+
+Paper [3](LINK HER<----------------------------------)
 
 ## Theory 4 - The Free and Open Source Software (FOSS) Movement 
 
-English
+English 
+
+Paper [4](https://github.com/KimMoe/IS-213-Gruppe1/blob/master/IS-213%20Oblig/TEORIBLOKK%20%234.pdf)
