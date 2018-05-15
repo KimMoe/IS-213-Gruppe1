@@ -101,7 +101,8 @@ public class Ball{
         }
     }        
     
-    
+    /**
+     * Starts a new game with the ball in the center of the moard and the paddles positioned at the middle of the edges
      */
     public void spawn() {
         ballX = pongBall.width / 2 - ballWidth /2;
