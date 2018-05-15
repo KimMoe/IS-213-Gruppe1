@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pongnnreborn;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-/*
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
-*/
 
 /**
- * This is the ball class and contains that dictates  how the ball will behave during pong.
+ * This is the ball class and contains everything that dictates  how the ball will behave during pong.
  * @author Tonnes
  */
-public class Ball /*implements ActionListener*/ {
+public class Ball{
     final int ballSpeed = 6;
     final int ballHeight = 25;
     final int ballWidth = 25;
@@ -37,16 +27,23 @@ public class Ball /*implements ActionListener*/ {
     private Pong pongBall;
     
     private Random randomBall;
-    //Timer timer;
     
+    /**
+     * 
+     * @param pong The current game
+     */
     public Ball(Pong pong) {
         randomBall = new Random();
-        //timer = new Timer(1000, this);
         
         pongBall = pong;  
         spawn();
     }
     
+    /**
+     * Method that updates the motion of the ball
+     * @param paddle1
+     * @param paddle2 
+     */
     public void update(Paddle paddle1, Paddle paddle2) {
         ballX += motionX * ballSpeed;
         ballY += motionY * ballSpeed;              
@@ -105,6 +102,7 @@ public class Ball /*implements ActionListener*/ {
     }        
     
     
+     */
     public void spawn() {
         ballX = pongBall.width / 2 - ballWidth /2;
         ballY = pongBall.height / 2 - ballHeight /2;
@@ -123,30 +121,41 @@ public class Ball /*implements ActionListener*/ {
         }    
     }
    
+    /**
+     * Method that checkes if the ball hits the paddle.
+     * 
+     * BUGGED. When the ball hits the top or bottom of the paddle, the score shots up. Because it's techinally behind it.
+     * It would be interesting if the NN learn to abuse this bug...
+     * 
+     * @param paddle The paddle that is to be checked
+     * @return returns an int. 1 if the ball hits the paddle, 2 if the ball is behind the paddle, else it returns 0
+     */
     public int checkCollision(Paddle paddle) {
-        //BUGGED. When the ball hits the top or bottom of the paddle, the score shots up. Because it's techinally behind it. <-----------------------
-        //It would be interesting if the NN learn to abuse this bug...
         if (ballX < paddle.paddleX + paddle.paddleWidth && ballX + ballWidth > paddle.paddleX && ballY < paddle.paddleY + paddle.paddleHeight && ballY + ballHeight > paddle.paddleY) {
-            //Ball hits paddle
             return 1;
         }
         
         else if ((paddle.paddleX > ballX && paddle.paddleNumber == 1) || (paddle.paddleX < ballX - ballWidth && paddle.paddleNumber == 2)) {
-            //Loses ball behind paddle.
             return 2; 
         }
-        //Nothing
         return 0;
     }
     
     /**
     * Renders the graphic of the pong interface
+    * 
+     * @param g
     */
     public void render(Graphics2D g) {
         g.setColor(Color.black);
         g.fillOval(ballX, ballY, ballWidth, ballHeight);
     } 
     
+    /**
+     * 
+     * @param paddle
+     * @return 
+     */
     public double setDesiredOutput_NN(Paddle paddle) {
         if (ballY < paddle.paddleY) {
             return 0;
@@ -158,10 +167,4 @@ public class Ball /*implements ActionListener*/ {
             return 0.5;
         }
     }
-/*
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        pongBall.nn.startNN();
-    }
-*/
 }

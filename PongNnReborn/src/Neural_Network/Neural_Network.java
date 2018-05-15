@@ -229,9 +229,7 @@ public class Neural_Network {
     }   
       
     /**
-     * Method that sets and returns input 1, wich is the balls Y-position
-     * 
-     * @return Input 1
+     * Method that set
      */
     public double getInput_1() {
         input_1 = Ball.ballY;

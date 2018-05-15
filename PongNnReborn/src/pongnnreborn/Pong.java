@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package pongnnreborn;
 
 import Neural_Network.Neural_Network;
@@ -59,6 +53,7 @@ public class Pong  implements ActionListener, KeyListener {
     Timer timer; 
     Random random;
 
+    
     public Pong(){
         pongRendering = new Rendering();
         nn = new Neural_Network(this, ball);
@@ -76,10 +71,14 @@ public class Pong  implements ActionListener, KeyListener {
         timer.start();
     }
     
+    /**
+     * Main method, makes a new object of Pong and starts the game
+     * @param args 
+     */
     public static void main(String[] args) {
         pong = new Pong();
     }
-    
+
     public void start() {
         gameScreen = 1;
         if (neuralNetworkEnabled && liveViewEnabled) {
@@ -133,9 +132,6 @@ public class Pong  implements ActionListener, KeyListener {
             g.drawString("(2)", width / 2 -139, height / 2 + 75);
             g.drawString("(3)",width / 2 -139, height / 2 + 125);
             g.drawString("(4)",width / 2 -139, height / 2 + 175);
-
-//            g.drawString("BOT Status: " + botEnabled, 5, 20);
-//            g.drawString("NN Status: " + neuralNetworkEnabled, 5, 40);
                         
 
         }

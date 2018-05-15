@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pongnnreborn;
 
 import java.awt.Color;
@@ -38,6 +33,11 @@ public class Paddle {
         paddleY = pong.height / 2 - this.paddleHeight / 2; 
     }
     
+    /**
+     * Method that makes the graphics of the paddle
+     * 
+     * @param g 
+     */
     public void render(Graphics2D g) {
         if (paddleNumber == 1) {
             g.setColor(Color.blue);
@@ -49,6 +49,11 @@ public class Paddle {
         g.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
     }
     
+    /**
+     * Method to move the paddle
+     * 
+     * @param up 
+     */
     public void move(boolean up) {
         if(up) {
             if (paddleY - paddleSpeed > 0) {

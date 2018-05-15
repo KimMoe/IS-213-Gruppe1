@@ -27,7 +27,6 @@ import pongnnreborn.Ball;
 public class Neural_View implements ActionListener {
      
     static final int viewWidth = 880;
-    static final int viewHeight = 610;
     
     static double viewInput_1;
     static double viewInput_2;
