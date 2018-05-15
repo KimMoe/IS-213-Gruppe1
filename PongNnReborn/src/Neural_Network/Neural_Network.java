@@ -60,12 +60,12 @@ public class Neural_Network {
     private Ball ballNN;
     
     /**
+     * Creating the neural network, and setting constraints and rules.
      * 
-     * @param pong
-     * @param ball 
+     * @param pong The current game
+     * @param ball The current ball
      */
     public Neural_Network(Pong pong, Ball ball) {
-        //Creating the neural network, and setting constraints and rules.
         nnet = new MultiLayerPerceptron(TransferFunctionType.SIGMOID, inputs, hiddens, outputs);
         learningRule = (MomentumBackpropagation) nnet.getLearningRule();
         
@@ -80,19 +80,18 @@ public class Neural_Network {
     }
     
     /**
+     * Method that returns the desired output
      * 
-     * @return 
+     * @return Returns the desired output
      */
     public double getdesOutput() {
         return desOutput = Ball.desiredOutput;
     }
     
     /**
-     * If there ex
+     * 
      */
     public void startNN() {
-        //writeToFile(file); //<-- Use to create files with data.
-        
         if (fromFileEnabled) {  //Dosen't realy work that well.
             loadDataFromFile(file);
         } else {
@@ -108,8 +107,7 @@ public class Neural_Network {
     }
     
     /**
-     * Create a dataset based in the posisoning of ball and paddel.
-     * Then store it and use it for training of the neural network.
+     * Create a dataset based in the posisoning of ball and paddle, stores it and use it for training of the neural network.
      */
     public void createDataSet() {           
         System.out.print("Creating DataSet...     ");
@@ -119,11 +117,7 @@ public class Neural_Network {
         System.out.print(dataSet);               
         System.out.println("Data Createad!");
         
-        teachNeuralNetwork();
-        
-        
-        //System.out.println(learningRule.getCurrentIteration());
-        //System.out.println(dataSet.size());        
+        teachNeuralNetwork();      
     }
     
     /**
@@ -132,7 +126,6 @@ public class Neural_Network {
     public void teachNeuralNetwork() {
         System.out.print("Learning data...       ");
         
-        //nnet.randomizeWeights(random);
         nnet.learn(dataSet);     //STOPS WHEN THERE IS A 1.0 IN THE TXT FILE.
         
         System.out.println("Data Learnt!");
@@ -169,29 +162,7 @@ public class Neural_Network {
         if (fromFileEnabled) {
             clearDataSet();
             fromFileEnabled = false;
-        }
-        
-        //OLD MAYBE 
-//        for(DataSetRow dataRow : dataSet.getRows()) {                       
-//            nnet.setInput(dataRow.getInput());           
-//            nnet.calculate();
-//            
-//            outputArray = nnet.getOutput();     
-//            output = outputArray[0];
-//            
-//            
-//            //System.out.println("NN Output: " + output);
-//            //System.out.println(desOutput);
-//            //System.out.println(learningRule.getCurrentIteration());
-//            //System.out.println(Arrays.toString(nnet.getWeights()));
-//            
-//            
-//            //System.out.println(counter++);
-//            playPong(output);
-//            clearDataSet();
-//            
-//            
-//        }        
+        }  
     }
     
     /**
@@ -209,7 +180,7 @@ public class Neural_Network {
     }
     
     /**
-     * Loades data from a file.
+     * Loades training data from a file.
      * 
      * @param file 
      */
@@ -249,16 +220,18 @@ public class Neural_Network {
     }  
     
     /**
+     * Method to return the output of the neural network
      * 
-     * @return 
+     * @return Output
      */
     public double getNeuralNetwork_Output() {
         return output;
     }   
       
     /**
+     * Method that sets and returns input 1, wich is the balls Y-position
      * 
-     * @return 
+     * @return Input 1
      */
     public double getInput_1() {
         input_1 = Ball.ballY;
@@ -271,8 +244,9 @@ public class Neural_Network {
     }    
     
     /**
+     * Method that sets and returns input 2, wich is the paddles Y-position
      * 
-     * @return 
+     * @return  Input 1
      */
     public double getInput_2() {
         input_2 = Ball.paddleY_NN;
@@ -285,8 +259,9 @@ public class Neural_Network {
     }
     
     /**
+     * Method that returns the neural network generation
      * 
-     * @return 
+     * @return Generation
      */
     public int getGeneration() {
         return generation;
